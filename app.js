@@ -13,29 +13,11 @@ const tools = [
   ['Gemini','star','https://gemini.google.com/'],['Gamma','presentation','https://gamma.app/'],
   ['Gmail','mail','https://mail.google.com/'],['Agenda','calendar','https://calendar.google.com/']
 ];
-let session = null;
-function status(message, error = false){ $('auth-status').textContent = message; $('auth-status').classList.toggle('error',error); }
-function currentProfile(){
-  const legacy = lilaReadUserProfile();
-  // The legacy key is shared across accounts. Never display another account's profile.
-  return legacy.email && legacy.email.toLowerCase() === session?.user.email?.toLowerCase()
-    ? legacy : lilaNormalizeUserProfile({email:session?.user.email});
-}
-function applySession(next){
-  session = next?.user ? next : null;
-  $('auth-gate').hidden = !!session;
-  $('cockpit').hidden = !session;
-  $('profile-button').hidden = !session;
-  $('detail').close();
-  $('profile-fields').replaceChildren();
-  $('detail-title').textContent = '';
-  $('detail-copy').textContent = '';
-  $('greeting').textContent = session ? 'Bonjour'+(currentProfile().firstName ? ', '+currentProfile().firstName : '')+'.' : 'Bonjour.';
-  if(!session){ $('search').value = ''; renderSearch(); $('weather').innerHTML = '<i class="ti ti-cloud-sun" aria-hidden="true"></i> Météo locale'; }
-}
+// This standalone demo never creates an authenticated session.
+function currentProfile(){ return lilaReadUserProfile(); }
+$('greeting').textContent = 'Bonjour, '+currentProfile().firstName+'.';
 function openDetail(title, copy){
-  if(!session) return;
-  $('profile-fields').replaceChildren(); $('sign-out').hidden = true;
+  $('profile-fields').replaceChildren();
   $('detail-status').textContent = '';
   $('detail-title').textContent = title; $('detail-copy').textContent = copy;
   $('detail').showModal();
@@ -62,17 +44,15 @@ $('today').textContent = new Date().toLocaleDateString('fr-FR',{weekday:'long',d
 $('search').addEventListener('input',renderSearch);
 $('detail').querySelector('.close').addEventListener('click',()=>$('detail').close());
 $('profile-button').addEventListener('click',()=>{
-  openDetail('Mon profil','Profil existant, en lecture seule. Les informations locales sont disponibles sur le navigateur et le domaine où elles ont été enregistrées.');
+  openDetail('Mon profil','Profil fictif de démonstration, uniquement pour l’affichage. Aucune donnée personnelle chargée.');
   const profile=currentProfile(); const dl=document.createElement('dl');
   Object.entries({firstName:'Prénom',lastName:'Nom',email:'E-mail',phone:'Téléphone',job:'Métier',company:'Entreprise',location:'Localisation',signature:'Signature'}).forEach(([key,label])=>{
     const dt=document.createElement('dt'), dd=document.createElement('dd'); dt.textContent=label; dd.textContent=profile[key]||'Non renseigné'; dl.append(dt,dd);
   });
-  $('profile-fields').append(dl); $('sign-out').hidden=false;
+  $('profile-fields').append(dl);
 });
-window.addEventListener('storage',event=>{if(event.key===LILA_USER_PROFILE_KEY && session) applySession(session);});
 $('weather').addEventListener('click',()=>{
-  const owner=session?.user.id; if(!owner) return;
-  const message = text => {if(session?.user.id===owner) $('weather').textContent=text;};
+  const message = text => { $('weather').textContent=text; };
   if(!navigator.geolocation){ message('Localisation indisponible'); return; }
   message('Localisation…');
   navigator.geolocation.getCurrentPosition(async position=>{
@@ -86,32 +66,3 @@ $('weather').addEventListener('click',()=>{
     }catch{ message('Météo indisponible · réessayer'); }
   },()=>message('Position indisponible · réessayer'),{timeout:6000,maximumAge:600000});
 });
-async function refreshSession(){
-  try{
-    const {data,error}=await lilaSupabase.auth.getSession(); if(error) throw error;
-    applySession(data.session); status('Connectez-vous avec votre adresse Li.La habituelle.');
-  }catch{ applySession(null); status('Impossible de vérifier la session. Vérifiez votre connexion et réessayez.',true); }
-}
-$('refresh-session').addEventListener('click',refreshSession);
-$('auth-form').addEventListener('submit',async event=>{
-  event.preventDefault(); $('auth-submit').disabled=true; status('Envoi du lien sécurisé…');
-  try{
-    const {error}=await lilaSupabase.auth.signInWithOtp({email:$('email').value.trim().toLowerCase(),options:{shouldCreateUser:false,emailRedirectTo:LILA_MAGIC_LINK_REDIRECT}});
-    if(error) throw error;
-    status('Si cette adresse est autorisée, le lien vient d’être envoyé. Consultez aussi les indésirables.');
-  }catch{status('Le lien n’a pas pu être envoyé. Vérifiez l’adresse ou réessayez.',true);}
-  finally{$('auth-submit').disabled=false;}
-});
-$('sign-out').addEventListener('click',async()=>{
-  $('sign-out').disabled=true;
-  try{const {error}=await lilaSupabase.auth.signOut();if(error)throw error;applySession(null);status('Vous êtes déconnecté.');$('email').focus();}
-  catch{$('detail-status').textContent='Déconnexion impossible. Réessayez.';}
-  finally{$('sign-out').disabled=false;}
-});
-if(typeof lilaSupabase==='undefined'){
-  status('Le service de connexion ne s’est pas chargé. Vérifiez votre connexion puis rechargez cette page.',true);
-}else{
-  // Synchronous callback: no Supabase request inside the auth listener.
-  lilaSupabase.auth.onAuthStateChange((_event,next)=>applySession(next));
-  $('auth-submit').disabled=false; refreshSession();
-}
