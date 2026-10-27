@@ -38,8 +38,9 @@ Ouvrir la racine du site sur GitHub Pages : aucun build, compte, secret ou servi
 
 - Route #/journee (et #/journee/AAAA-MM-JJ) : timeline du jour réunissant visites Li.La et rendez-vous de l’agenda (personnel, estimation / RDV pro, autre), créneaux disponibles d’au moins une heure, semaine navigable. Accès depuis la navigation et le panneau Ma journée de l’accueil.
 - « Connecter mon Google Agenda » : connexion simulée (aucun OAuth, aucune clé, aucune requête). Les événements viennent de demoCalendarEvents dans demo-data.js.
-- « Ajouter également à mon Google Agenda » dans + Ajouter une visite : la visite reste toujours enregistrée dans Li.La ; la copie agenda est simulée, ou mise en attente jusqu’à la connexion.
+- « Ajouter également à mon Google Agenda » dans + Ajouter une visite : la visite reste toujours enregistrée dans Li.La ; la copie agenda est simulée. L’option n’apparaît que si l’agenda est connecté : une visite créée avant la connexion n’est jamais copiée automatiquement, elle s’ajoute ensuite par le bouton « Ajouter à Google Agenda » (timeline ou suivi de la visite).
 - Cible PROD : lecture des événements de l’utilisateur et ajout d’une visite Li.La dans Google Agenda. Li.La reste la base des visites et ne modifie ni ne supprime les rendez-vous Google existants.
+- Backlog PROD (non construit dans la démo) : plusieurs agendas Google. À la connexion, choisir les agendas affichés dans Ma journée (ex. ☑ Personnel, ☑ Professionnel) et l’agenda où créer les visites (ex. Agenda professionnel).
 
 ## Origine métier du formulaire
 
