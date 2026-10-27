@@ -1,35 +1,16 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0C2241">
-  <title>Li.La — Cockpit</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="assets/lila-icon-192.png">
-  <link rel="apple-touch-icon" href="assets/lila-icon-192.png">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css">
-  <link rel="stylesheet" href="styles.css">
-  <script defer src="profile.js"></script>
-  <script defer src="app.js"></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#0C2241">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<title>Li.La V2 · Démonstration</title><link rel="icon" href="assets/lila-icon-192.png"><link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
+<script defer src="demo-data.js"></script><script defer src="app.js"></script>
 </head>
 <body>
-  <header class="topbar"><a class="brand" href="./"><img src="assets/lila-logo-transparent.png" alt="Li.La"><span>Cockpit <small>Version de travail · V2</small></span></a><button id="profile-button"><i class="ti ti-user" aria-hidden="true"></i> Mon profil</button></header>
-  <main>
-    <div id="cockpit">
-      <section class="welcome"><div><p class="eyebrow" id="today"></p><h1 id="greeting">Bonjour.</h1><p>Une vue claire pour avancer.</p></div><button id="weather"><i class="ti ti-cloud-sun" aria-hidden="true"></i> Météo locale</button></section>
-      <label class="search" for="search"><i class="ti ti-search" aria-hidden="true"></i><input id="search" type="search" placeholder="Rechercher dans Li.La…" aria-describedby="search-help"><span>⌕</span></label>
-      <p id="search-help" class="hint">Recherchez un espace ou un outil. La recherche dans vos données viendra ensuite.</p>
-      <div class="section-title"><h2>Mon cockpit</h2><span>L’essentiel, à portée de main</span></div>
-      <div class="cards" id="spaces"></div>
-      <p id="no-results" role="status" hidden>Aucun espace ou outil ne correspond à cette recherche.</p>
-      <section class="tools-section"><div class="section-title"><h2>Mes outils</h2><span>Accès directs · nouvel onglet</span></div><div class="tools" id="tools"></div></section>
-      <aside class="working-note"><span class="dot"></span> Votre nouveau point de départ. Les espaces métier seront raccordés progressivement.</aside>
-    </div>
-    <noscript>Activez JavaScript pour afficher les espaces du cockpit Li.La V2.</noscript>
-  </main>
-  <footer><span>Li.La · L’IA de l’immobilier connecté</span><span>Démo V2 · sans connexion</span></footer>
-  <dialog id="detail"><button class="close" aria-label="Fermer">×</button><p class="eyebrow">Li.La · Cockpit</p><h2 id="detail-title"></h2><p id="detail-copy"></p><div id="profile-fields"></div><p id="detail-status" role="status"></p></dialog>
-</body>
-</html>
+<header class="topbar"><a class="brand" href="#accueil"><img src="assets/lila-symbol-transparent.png" alt=""><strong>Li.La</strong><span>Cockpit <small>V2 · Démonstration métier</small></span></a><span class="demo-tag">Données fictives</span></header>
+<nav id="navigation" aria-label="Navigation principale"></nav>
+<main id="view" tabindex="-1"></main>
+<noscript>Activez JavaScript pour explorer cette démonstration.</noscript>
+<footer><span>Li.La · L’immobilier connecté</span><span>Démo locale · aucune donnée envoyée ou enregistrée</span></footer>
+<dialog id="detail" aria-labelledby="detail-title"><button class="close" aria-label="Fermer">×</button><div id="detail-body"></div></dialog>
+</body></html>

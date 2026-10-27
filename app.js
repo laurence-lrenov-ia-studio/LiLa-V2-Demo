@@ -1,68 +1,57 @@
 'use strict';
-const $ = id => document.getElementById(id);
-const spaces = [
-  ['Ma journée','calendar','Vos priorités, au même endroit.','Votre agenda et vos priorités seront réunis ici. Aucun agenda n’est encore connecté.'],
-  ['Notes','notes','Une idée, un détail, un rappel.','L’espace Notes est prêt à accueillir vos mémos. La version de référence ne dispose pas encore de sauvegarde durable : la création et la dictée seront raccordées dans une prochaine étape.'],
-  ['Tâches','checkbox','Garder le fil de vos actions.','Vos tâches et leurs échéances apparaîtront ici après raccordement.'],
-  ['Mon Réseau / CRM','users','Vos contacts et vos échanges.','Votre réseau professionnel sera accessible ici. Aucun contact n’est importé à cette étape.'],
-  ['Biens & projets','building-estate','Suivre chaque projet immobilier.','Le suivi des biens et projets sera raccordé dans une prochaine étape.'],
-  ['Hub Immobilier Li.La','home-search','Votre espace immobilier neutre.','Un espace immobilier Li.La indépendant, à construire. Le Hub Maison d’AVA reste dans son environnement existant.']
-];
-const tools = [
-  ['ChatGPT','sparkles','https://chatgpt.com/'],['Claude','asterisk','https://claude.ai/'],
-  ['Gemini','star','https://gemini.google.com/'],['Gamma','presentation','https://gamma.app/'],
-  ['Gmail','mail','https://mail.google.com/'],['Agenda','calendar','https://calendar.google.com/']
-];
-// This standalone demo never creates an authenticated session.
-function currentProfile(){ return lilaReadUserProfile(); }
-$('greeting').textContent = 'Bonjour, '+currentProfile().firstName+'.';
-function openDetail(title, copy){
-  $('profile-fields').replaceChildren();
-  $('detail-status').textContent = '';
-  $('detail-title').textContent = title; $('detail-copy').textContent = copy;
-  $('detail').showModal();
+const $=id=>document.getElementById(id);
+const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money=value=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(value);
+const sections=[['hub','Hub Immobilier','⌂','Explorer les biens'],['biens','Mes biens','▦','Gérer le portefeuille'],['projets','Mes projets','◎','Suivre chaque dossier'],['reseau','Mon Réseau','◉','Retrouver les contacts'],['notes','Mes Notes','▤','Garder une trace'],['taches','Mes Tâches','✓','Préparer la suite']];
+const link=(route,label,cls='')=>`<a class="${cls}" href="#${route}">${esc(label)}</a>`;
+const property=id=>demoProperties.find(p=>p.id===id);
+const visits=id=>demoVisitors.filter(v=>v.property===id);
+const pill=text=>`<span class="pill">${esc(text)}</span>`;
+const heading=(title,copy,actions='')=>`<div class="page-heading"><div><p class="eyebrow">Li.La · démonstration</p><h1>${esc(title)}</h1><p>${esc(copy)}</p></div><div class="actions">${actions}</div></div>`;
+const art=p=>`<div class="property-art ${p.color}" aria-label="Illustration de ${esc(p.type)}"><span aria-hidden="true">${p.type==='Maison'?'⌂':'▥'}</span><small>Illustration · bien fictif</small></div>`;
+function card(p,manage=false){return `<article class="property-card">${art(p)}<div class="card-body"><div class="row">${pill(p.status)}<small>${esc(p.city)}</small></div><h2>${link('bien/'+p.id,p.title)}</h2><strong class="price">${money(p.price)}</strong><p>${p.surface} m² · ${p.rooms} pièces · ${p.bedrooms} chambres</p><div class="actions">${link('bien/'+p.id,'Voir le bien','button')}${manage?link('projet/'+p.id,'Ouvrir le projet','button primary'):''}</div></div></article>`;}
+function home(){return heading('Bonjour, Camille.','Un bien, un projet, des relations à suivre.')+`<div class="home-cards">${sections.map(([id,name,icon,copy])=>`<a href="#${id}" class="home-card"><span class="home-icon">${icon}</span><strong>${name}</strong><small>${copy}</small></a>`).join('')}</div><section class="journey"><p class="eyebrow">Le parcours à explorer</p><h2>De la découverte au suivi</h2><p>Hub → Bien → Projet de suivi → Visites → Notes / Tâches → Contact</p>${link('bien/pessac','Découvrir Maison Pessac · 465 000 €','button')}</section><section class="tools-section"><h2>Mes outils</h2><p class="hint">Raccourcis de démonstration · aucun service connecté</p><div class="tools">${['ChatGPT','Claude','Gemini','Gamma','Gmail','Agenda'].map(n=>`<button data-tool="${n}">${n}<span>Démo</span></button>`).join('')}</div></section>`;}
+function hub(){return heading('Hub Immobilier','Un espace Li.La neutre pour explorer les biens.',link('biens','Mes biens','button')+link('deposer','Déposer un bien','button primary'))+`<div class="filters"><label>Rechercher<input id="hub-query" type="search" placeholder="Ville, titre…"></label><label>Type<select id="hub-type"><option value="">Tous les types</option><option>Maison</option><option>Appartement</option></select></label><label>Budget maximum<select id="hub-budget"><option value="">Tous les budgets</option><option value="300000">300 000 €</option><option value="400000">400 000 €</option><option value="500000">500 000 €</option></select></label></div><p id="hub-count" role="status" class="hint"></p><div class="property-grid" id="hub-results"></div>`;}
+function filterHub(){const norm=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();const q=norm($('hub-query').value);const list=demoProperties.filter(p=>['En vente','Sous offre'].includes(p.status)&&norm(p.title+' '+p.city).includes(q)&&(!$('hub-type').value||p.type===$('hub-type').value)&&(!$('hub-budget').value||p.price<=Number($('hub-budget').value)));$('hub-count').textContent=`${list.length} bien(s) dans cette démonstration`;$('hub-results').innerHTML=list.length?list.map(p=>card(p)).join(''):'<div class="empty">Aucun bien ne correspond. Modifiez les filtres.</div>';}
+function detail(p){return heading(p.title,money(p.price),link('hub','Retour au Hub','button')+link('projet/'+p.id,'Ouvrir le projet de suivi','button primary'))+`<div class="split"><section class="panel">${art(p)}<div class="row">${pill(p.status)}${pill(p.type)}${pill('DPE '+p.dpe)}</div><h2>${p.surface} m² · ${p.rooms} pièces · ${p.bedrooms} chambres</h2><p>${esc(p.description)}</p><div class="chips">${p.features.map(pill).join('')}</div>${p.land?`<p>Terrain : ${p.land} m²</p>`:''}</section><aside class="panel"><p class="eyebrow">Le dossier lié</p><h2>Un bien, un suivi</h2><p>Propriétaire : ${link('contact/owner-'+p.id,p.owner)}</p><p>${visits(p.id).length} visites dans le dossier fictif.</p>${link('projet/'+p.id,'Visites, notes et prochaines actions','button primary')}<p class="hint">Données entièrement fictives pour valider la navigation.</p></aside></div>`;}
+function project(p){const list=visits(p.id);return heading('Projet · '+p.title,money(p.price)+' · '+p.status,link('bien/'+p.id,'Voir le bien','button')+link('projets','Tous les projets','button'))+`<div class="stats"><div><small>Propriétaire</small>${link('contact/owner-'+p.id,p.owner)}</div><div><small>Visites réalisées</small><strong>${list.length}</strong></div><div><small>Contre-visites à prévoir</small><strong>${list.filter(v=>v.status==='Contre-visite').length}</strong></div><div><small>Offres reçues</small><strong>${list.filter(v=>v.offer).length}</strong></div></div><section class="panel"><h2>Visites & visiteurs</h2><p class="hint">Cliquez sur un visiteur pour ouvrir son suivi.</p>${list.length?`<div class="visit-list">${list.map(v=>`<button class="visit-row" data-visitor="${v.id}"><span><strong>${v.name}</strong><small>${v.date} · visite réalisée</small></span>${pill(v.status)}<span>${v.offer?money(v.offer):'Voir le suivi →'}</span></button>`).join('')}</div>`:'<p class="empty">Aucune visite dans cet exemple. Le projet est prêt à accueillir son suivi.</p>'}</section><div class="split below"><section class="panel"><h2>Notes du dossier</h2>${list.length?list.map(v=>`<article class="record"><p>${esc(v.note)}</p>${link('contact/'+v.id,v.name)} · ${link('notes/'+p.id,'Voir les notes')}</article>`).join(''):'<p>Fiche du bien à compléter avec le propriétaire.</p>'}</section><section class="panel"><h2>Tâches / prochaines actions</h2>${taskList(p.id)}</section></div>`;}
+function taskList(id,contact){const list=demoVisitors.filter(v=>(!id||v.property===id)&&(!contact||v.id===contact));return list.length?list.map(v=>`<article class="record"><label class="check"><input type="checkbox" data-task="${v.id}" ${completed.has(v.id)?'checked':''}><span>${esc(v.action)}</span></label><small>${link('projet/'+v.property,property(v.property).title)} · ${link('contact/'+v.id,v.name)}</small></article>`).join(''):'<p class="empty">Aucune action planifiée dans cet exemple.</p>';}
+const completed=new Set();
+function notes(id){const list=demoVisitors.filter(v=>!id||v.property===id);return heading('Mes Notes',id?property(id).title:'Des notes reliées à un bien et à un contact.',id?link('projet/'+id,'Retour au projet','button'):'')+`<div class="record-grid">${list.map(v=>`<article class="panel"><p class="eyebrow">Note de visite · exemple</p><h2>${v.name}</h2><p>${esc(v.note)}</p><div class="actions">${link('projet/'+v.property,property(v.property).title,'button')}${link('contact/'+v.id,'Voir le contact','button')}</div></article>`).join('')}</div>`;}
+function contact(id){const owner=id.startsWith('owner-')?property(id.slice(6)):null;const v=demoVisitors.find(v=>v.id===id);if(!owner&&!v)return missing();const p=owner||property(v.property);return heading(owner?owner.owner:v.name,owner?'Propriétaire · contact fictif':'Acquéreur · contact fictif',link('reseau','Mon Réseau','button'))+`<div class="split"><section class="panel"><h2>Fiche contact</h2><dl><dt>E-mail fictif</dt><dd>${owner?'proprietaire':v.id}@example.com</dd><dt>Téléphone</dt><dd>Non renseigné dans la démo</dd><dt>Rôle</dt><dd>${owner?'Propriétaire':'Visiteur / acquéreur'}</dd>${v?`<dt>Budget</dt><dd>${money(v.budget)}</dd><dt>Suivi</dt><dd>${v.status}</dd>`:''}</dl>${link('projet/'+p.id,'Projet · '+p.title,'button primary')}</section><section class="panel"><h2>${owner?'Bien rattaché':'Notes et prochaines actions'}</h2>${owner?`<p>${p.title} · ${money(p.price)}</p>${link('bien/'+p.id,'Voir le bien','button')}`:`<p>${esc(v.note)}</p>${taskList(p.id,v.id)}${link('notes/'+p.id,'Notes du projet','button')}`}</section></div>`;}
+function visitor(id){const v=demoVisitors.find(v=>v.id===id);if(!v)return;showModal(`<p class="eyebrow">Suivi de visite · fictif</p><h2 id="detail-title">${v.name}</h2><p>${property(v.property).title} · ${v.date}</p>${pill(v.status)}<dl><dt>Visite</dt><dd>Réalisée</dd><dt>Contre-visite</dt><dd>${v.status==='Contre-visite'?'À planifier':'Non prévue'}</dd><dt>Offre</dt><dd>${v.offer?money(v.offer)+' · à présenter':'Aucune'}</dd></dl><h3>Note de visite</h3><p>${esc(v.note)}</p><h3>Prochaine action</h3><p>${esc(v.action)}</p><div class="actions">${link('contact/'+v.id,'Fiche contact','button primary')}${link('notes/'+v.property,'Notes du projet','button')}${link('taches/'+v.property,'Tâches du projet','button')}</div>`);}
+function showModal(html){$('detail-body').innerHTML=html;$('detail').showModal();}
+function missing(){return heading('Page introuvable','Cet exemple n’existe pas.',link('accueil','Retour à l’accueil','button'));}
+const input=(name,label,type='text',value='',extra='')=>`<label>${label}<input name="${name}" type="${type}" value="${esc(value)}" ${extra}></label>`;
+const select=(name,label,options)=>`<label>${label}<select name="${name}">${options.map(o=>`<option>${o}</option>`).join('')}</select></label>`;
+const checks=(name,options)=>`<div class="checks">${options.map(o=>`<label class="check"><input type="checkbox" name="${name}" value="${o}">${o}</label>`).join('')}</div>`;
+let photoUrls=[];
+function deposit(){return heading('Déposer un bien','Préparez une fiche et prévisualisez-la. Aucun enregistrement ni publication.',link('hub','Retour au Hub','button'))+`<form id="deposit-form"><fieldset><legend>01 · Le bien et le projet</legend><div class="form-grid">${input('title','Titre du bien','text','Maison Pessac','required maxlength="120"')}${select('transaction','Projet',['Vente','Location'])}${select('type','Type de bien',['Maison','Appartement','Terrain','Immeuble','Local commercial','Autre'])}${select('usage','Usage du bien',['Résidence principale','Résidence secondaire','Locatif','Succession','Autre'])}${input('city','Ville','text','Pessac','required')}${input('address','Adresse (fictive)','text','','placeholder="Adresse de démonstration"')}</div></fieldset><fieldset><legend>02 · Surfaces et caractéristiques</legend><div class="form-grid">${input('surface','Surface (m²)','number',125,'required min="1"')}${input('rooms','Nombre de pièces','number',5,'min="0"')}${input('bedrooms','Chambres','number',4,'min="0"')}<div data-condition="house">${input('land','Surface du terrain (m²)','number',640,'min="0"')}</div><div data-condition="apartment" hidden>${input('floor','Étage','number',1)}${select('lift','Ascenseur',['Oui','Non'])}</div>${select('condition','État général',['Bon','Excellent','À rafraîchir','Travaux importants'])}${input('year','Année de construction','number',1998,'min="1600" max="2100"')}</div><p>Équipements et extérieurs</p>${checks('features',['Cuisine équipée','Double vitrage','Climatisation','Cave','Balcon','Terrasse','Jardin','Piscine','Stationnement','Garage'])}</fieldset><fieldset><legend>03 · Situation et commercialisation</legend><div class="form-grid">${select('occupation','Occupation',['Libre','Occupé par le propriétaire','Loué'])}${select('diagnostics','Diagnostics',['Réalisés','Programmés','Non réalisés'])}${select('dpe','DPE',['C','A','B','D','E','F','G','Non renseigné'])}${select('mandate','Mandat existant',['Aucun','Simple','Exclusif'])}<div data-condition="sale">${input('price','Prix souhaité (€)','number',465000,'required min="1"')}</div><div data-condition="rent" hidden>${input('rent','Loyer mensuel (€)','number','','min="1"')}${input('charges','Charges mensuelles (€)','number','','min="0"')}${select('rentalType','Type de location',['Vide','Meublée'])}</div></div><label>Description et travaux à prévoir<textarea name="description" rows="3" placeholder="Décrivez ce bien fictif…">Maison lumineuse avec jardin et terrasse.</textarea></label></fieldset><fieldset><legend>04 · Propriétaire et disponibilités</legend><div class="form-grid">${input('owner','Propriétaire fictif','text','Claire Morel','required')}${input('email','E-mail fictif','email','claire@example.com')}${input('availability','Disponibilités pour les visites','text','Sur rendez-vous')}${select('preferred','Contact préféré',['E-mail','Téléphone','Indifférent'])}</div></fieldset><fieldset><legend>05 · Photos et prévisualisation</legend><label>Ajouter des photos (sur cet écran uniquement)<input id="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple></label><p class="hint">5 images maximum, 5 Mo par image. Aucune photo n’est envoyée.</p><p id="photo-status" role="status"></p><div id="photo-preview" class="photo-strip"></div><button class="primary" type="submit">Prévisualiser le bien</button></fieldset></form>`;}
+function conditions(){const f=$('deposit-form');const type=f.elements.type.value;const rental=f.elements.transaction.value==='Location';for(const [name,visible] of Object.entries({house:['Maison','Terrain'].includes(type),apartment:type==='Appartement',sale:!rental,rent:rental})){const group=f.querySelector(`[data-condition="${name}"]`);group.hidden=!visible;group.querySelectorAll('input,select').forEach(el=>el.disabled=!visible);}f.elements.rent.required=rental;}
+function preview(event){event.preventDefault();const data=new FormData(event.target);const rows=[['Projet',data.get('transaction')],['Type',data.get('type')],['Usage',data.get('usage')],['Ville',data.get('city')],['Adresse',data.get('address')],['Surface',data.get('surface')+' m²'],['Pièces / chambres',data.get('rooms')+' / '+data.get('bedrooms')],['Terrain',data.get('land')?data.get('land')+' m²':''],['Étage',data.get('floor')],['Ascenseur',data.get('lift')],['État',data.get('condition')],['Construction',data.get('year')],['Occupation',data.get('occupation')],['Diagnostics',data.get('diagnostics')],['DPE',data.get('dpe')],['Mandat',data.get('mandate')],['Type de location',data.get('rentalType')],['Charges mensuelles',data.get('charges')?money(Number(data.get('charges'))):''],['Propriétaire',data.get('owner')],['E-mail',data.get('email')],['Visites',data.get('availability')],['Contact préféré',data.get('preferred')]];showModal(`<p class="eyebrow">Prévisualisation · non publié</p><h2 id="detail-title">${esc(data.get('title'))}</h2><p class="price">${money(Number(data.get('price')||data.get('rent')))}${data.get('transaction')==='Location'?' / mois':''}</p><div class="photo-strip">${photoUrls.map(url=>`<img src="${url}" alt="Photo sélectionnée pour la prévisualisation">`).join('')}</div><dl>${rows.filter(([,v])=>v!==null&&v!=='').map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl><p>${esc(data.get('description'))}</p><div class="chips">${data.getAll('features').map(pill).join('')}</div><p class="notice">Cette fiche n’a pas été enregistrée. Fermez cette fenêtre pour modifier le formulaire.</p>`);}
+function bindForm(){const f=$('deposit-form');f.addEventListener('change',conditions);f.addEventListener('submit',preview);conditions();$('photos').addEventListener('change',event=>{photoUrls.forEach(URL.revokeObjectURL);const files=[...event.target.files];const accepted=files.filter(f=>['image/jpeg','image/png','image/webp'].includes(f.type)&&f.size<=5*1024*1024).slice(0,5);photoUrls=accepted.map(f=>URL.createObjectURL(f));$('photo-preview').innerHTML=photoUrls.map((url,i)=>`<img src="${url}" alt="Photo ${i+1} sélectionnée">`).join('');$('photo-status').textContent=`${accepted.length} photo(s) sélectionnée(s).`+(files.length!==accepted.length?' Certaines images ont été écartées (format, poids ou limite de 5).':'');});}
+function render(){
+ $('detail').close();photoUrls.forEach(URL.revokeObjectURL);photoUrls=[];
+ const [route='accueil',id]=location.hash.slice(1).split('/');
+ $('navigation').innerHTML=link('accueil','Accueil',route==='accueil'?'active':'')+sections.map(([key,name])=>link(key,name,key===route?'active':'')).join('');
+ let html;
+ if(route==='accueil')html=home();
+ else if(route==='hub')html=hub();
+ else if(route==='biens')html=heading('Mes biens','Tous les statuts du portefeuille fictif.',link('deposer','Déposer un bien','button primary'))+`<div class="property-grid">${demoProperties.map(p=>card(p,true)).join('')}</div>`;
+ else if(route==='projets')html=heading('Mes projets','Chaque bien possède son dossier de suivi.')+`<div class="record-grid">${demoProperties.map(p=>`<article class="panel"><div class="row">${pill(p.status)}<small>${visits(p.id).length} visites</small></div><h2>${p.title}</h2><p>${money(p.price)} · ${p.owner}</p>${link('projet/'+p.id,'Ouvrir le suivi','button primary')}</article>`).join('')}</div>`;
+ else if(route==='bien')html=property(id)?detail(property(id)):missing();
+ else if(route==='projet')html=property(id)?project(property(id)):missing();
+ else if(route==='notes')html=!id||property(id)?notes(id):missing();
+ else if(route==='taches')html=!id||property(id)?heading('Mes Tâches',id?property(id).title:'Prochaines actions · cases cochées conservées seulement durant cette visite.',id?link('projet/'+id,'Retour au projet','button'):'')+`<section class="panel">${taskList(id)}</section>`:missing();
+ else if(route==='reseau')html=heading('Mon Réseau','Propriétaires et acquéreurs fictifs reliés à leurs dossiers.')+`<div class="record-grid">${demoProperties.map(p=>`<article class="panel"><p class="eyebrow">Propriétaire</p><h2>${p.owner}</h2><p>${p.title}</p>${link('contact/owner-'+p.id,'Fiche contact','button')}</article>`).join('')}${demoVisitors.map(v=>`<article class="panel"><p class="eyebrow">Acquéreur · ${v.status}</p><h2>${v.name}</h2><p>${property(v.property).title}</p>${link('contact/'+v.id,'Fiche contact','button')}</article>`).join('')}</div>`;
+ else if(route==='contact')html=contact(id||'');
+ else if(route==='deposer')html=deposit();else html=missing();
+ $('view').innerHTML=html;document.title=($('view').querySelector('h1')?.textContent||'Cockpit')+' · Li.La V2';
+ if(route==='hub'){['hub-query','hub-type','hub-budget'].forEach(id=>$(id).addEventListener('input',filterHub));filterHub();}
+ if(route==='deposer')bindForm();
+ $('view').focus({preventScroll:true});window.scrollTo(0,0);
 }
-function renderSearch(){
-  const normalize = text => text.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-  const query = normalize($('search').value.trim());
-  let count = 0;
-  document.querySelectorAll('[data-search]').forEach(el => { el.hidden = !normalize(el.dataset.search).includes(query); if(!el.hidden) count++; });
-  $('no-results').hidden = count > 0;
-}
-spaces.forEach(([title,icon,description,copy], index) => {
-  const button = document.createElement('button'); button.className = 'space'; button.dataset.search = title+' '+description;
-  const colors = [['#FDEEE4','#C75F28'],['#F1ECF5','#7C6491'],['#EBF0E7','#5E7350']][index%3];
-  button.style.setProperty('--tint',colors[0]); button.style.setProperty('--ink',colors[1]);
-  button.innerHTML = `<span class="icon"><i class="ti ti-${icon}" aria-hidden="true"></i></span><span class="badge">À venir</span><strong>${title}</strong><span class="description">${description}</span>`;
-  button.addEventListener('click',()=>openDetail(title,copy)); $('spaces').append(button);
-});
-tools.forEach(([name,icon,url])=>{
-  const link = document.createElement('a'); link.className='tool'; link.href=url; link.target='_blank'; link.rel='noopener noreferrer'; link.dataset.search=name;
-  link.innerHTML=`<i class="ti ti-${icon}" aria-hidden="true"></i>${name}`; link.setAttribute('aria-label',name+' — nouvel onglet'); $('tools').append(link);
-});
-$('today').textContent = new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
-$('search').addEventListener('input',renderSearch);
+document.addEventListener('click',event=>{const v=event.target.closest('[data-visitor]');if(v)visitor(v.dataset.visitor);const tool=event.target.closest('[data-tool]');if(tool)showModal(`<h2 id="detail-title">${esc(tool.dataset.tool)}</h2><p>Raccourci fictif. Aucun service connecté dans cette démonstration.</p>`);});
+document.addEventListener('change',event=>{if(event.target.matches('[data-task]')){if(event.target.checked)completed.add(event.target.dataset.task);else completed.delete(event.target.dataset.task);}});
 $('detail').querySelector('.close').addEventListener('click',()=>$('detail').close());
-$('profile-button').addEventListener('click',()=>{
-  openDetail('Mon profil','Profil fictif de démonstration, uniquement pour l’affichage. Aucune donnée personnelle chargée.');
-  const profile=currentProfile(); const dl=document.createElement('dl');
-  Object.entries({firstName:'Prénom',lastName:'Nom',email:'E-mail',phone:'Téléphone',job:'Métier',company:'Entreprise',location:'Localisation',signature:'Signature'}).forEach(([key,label])=>{
-    const dt=document.createElement('dt'), dd=document.createElement('dd'); dt.textContent=label; dd.textContent=profile[key]||'Non renseigné'; dl.append(dt,dd);
-  });
-  $('profile-fields').append(dl);
-});
-$('weather').addEventListener('click',()=>{
-  const message = text => { $('weather').textContent=text; };
-  if(!navigator.geolocation){ message('Localisation indisponible'); return; }
-  message('Localisation…');
-  navigator.geolocation.getCurrentPosition(async position=>{
-    try{
-      const {latitude,longitude}=position.coords;
-      const response=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m`,{signal:AbortSignal.timeout(10000)});
-      if(!response.ok) throw new Error('weather');
-      const data=await response.json(); const temperature=data.current?.temperature_2m;
-      if(typeof temperature!=='number') throw new Error('weather');
-      message('Ma position · '+Math.round(temperature)+' °C');
-    }catch{ message('Météo indisponible · réessayer'); }
-  },()=>message('Position indisponible · réessayer'),{timeout:6000,maximumAge:600000});
-});
+window.addEventListener('hashchange',render);render();

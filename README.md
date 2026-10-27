@@ -1,15 +1,24 @@
-# Li.La V2 — Démo du cockpit
+# Li.La V2 — Démonstration métier autonome
 
-Cette version autonome affiche directement le cockpit sans authentification. Le profil Camille est fictif et sert uniquement à l’affichage ; aucun profil local existant n’est lu.
+Ouvrir la racine du site sur GitHub Pages : aucun build, compte, secret ou service externe requis. Navigation par fragments (#hub, #projet/pessac…), compatible avec un chemin de dépôt et le rechargement direct.
 
-Aucun SDK ou client Supabase n’est chargé, aucun lien magique n’est envoyé et aucune donnée ou configuration Supabase n’est modifiée. Les autres versions et la production ne sont pas concernées.
+## Parcours
 
-## GitHub Pages
+- Accueil : six petites cartes et six raccourcis d’outils fictifs.
+- Hub neutre : recherche, filtres type/budget, fiches de biens et dépôt.
+- Mes biens : cinq exemples couvrant En vente, Brouillon, Sous offre, À actualiser et Vendu / retiré. Chaque bien ouvre son projet.
+- Maison Pessac, 465 000 € : propriétaire, cinq visiteurs, contre-visite, refus, intéressé, à recontacter et offre. Panneau par visiteur, notes, tâches et contacts liés.
+- Réseau, Notes et Tâches : vues transversales avec liens vers les dossiers. Les coches des tâches restent seulement en mémoire jusqu’au rechargement.
+- Dépôt : cinq sections, sélecteurs, équipements, champs conditionnels Maison/Appartement et Vente/Location, photos locales et prévisualisation complète. Aucune sauvegarde ou publication.
 
-Publier la racine de ce dépôt avec GitHub Pages puis ouvrir l’URL du site. Les ressources locales et le manifest utilisent des chemins relatifs compatibles avec un sous-répertoire GitHub Pages. Aucun build, secret ou connexion n’est nécessaire.
+## Origine métier du formulaire
 
-Les six espaces affichent leur état « À venir ». La recherche filtre les espaces et outils. La météo utilise la géolocalisation et Open-Meteo uniquement au clic. Les outils externes s’ouvrent au clic dans un nouvel onglet. Les polices et icônes utilisent des CDN.
+Lecture seule des anciens formulaires dans `Li.La_DEV_AOUT_2026/Li.La_20_07_26/Li.La_ACCES_REEL_SUPABASE/Li.La-hub-ava/particuliers/index.html` (catalogue de champs autour des lignes 1007–1010) et `Li.La-hub-ava/lila-by-la-maison-d-ava.html` (équipements autour des lignes 10969–10971).
 
-## Vérification locale
+Champs réutilisés conceptuellement : type/usage, adresse/secteur, surfaces, pièces/chambres, étage/ascenseur, état, diagnostics, occupation, prix, mandat, location/charges, coordonnées et disponibilités. Les tableaux originaux de Linda n’ont pas été retrouvés comme fichiers autonomes dans le dépôt consulté. Aucun code d’authentification, backend ou marque du Hub historique n’est repris. Aucun fichier de ces anciens projets n’a été écrit.
 
-Avec Node, Playwright et Edge installés : `node verify.cjs`. Le test bloque les ressources externes, vérifie l’accès direct à la racine et sous un chemin de projet, l’absence d’appels Supabase, le profil fictif, la recherche, les fenêtres et les largeurs 320, 390, 768 et 1440 px.
+## Isolation et validation
+
+Données fictives dans `demo-data.js`. Aucun client Supabase chargé, aucune requête réseau applicative, aucune lecture de compte ou de stockage local. Les images sélectionnées utilisent des URL temporaires libérées lors du changement de vue. Une politique CSP interdit les connexions réseau. Les ressources visuelles sont locales ; les illustrations de biens sont volontairement schématiques.
+
+Avec Node, Playwright et Edge disponibles : `node verify.cjs`. Tests locaux : navigation complète, filtres, formulaire conditionnel, photo/prévisualisation, échappement de saisie, ouverture racine/sous-chemin, rechargement, dix vues à 320/390/768/1440 px. Le script bloque séparément l’injection antivirus du poste, qui ne fait pas partie du site. Aucun appel Supabase, e-mail, agenda, IA, push ou déploiement n’est réalisé.
