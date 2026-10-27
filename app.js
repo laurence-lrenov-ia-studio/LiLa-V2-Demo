@@ -19,11 +19,12 @@ const visitStatuses=['Prévue','Réalisée','Intéressé','Contre-visite','À re
 const taskStatuses=['À faire','En cours','Terminée'];
 const priorities=['Normale','Haute','Basse'];
 const initialState=()=>({
- visits:demoVisitors.map(v=>({...v,contact:v.id,date:'2026-10-'+({lea:'24',hugo:'23',ines:'25',paul:'22',sarah:'26',alice:'25'}[v.id]),time:({lea:'14:00',hugo:'11:00',ines:'10:00',paul:'16:00',sarah:'15:00',alice:'17:00'}[v.id]),comment:v.note})),
+ visits:[...demoVisitors.map(v=>({...v,contact:v.id,date:'2026-10-'+({lea:'24',hugo:'23',ines:'25',paul:'22',sarah:'26',alice:'25'}[v.id]),time:({lea:'14:00',hugo:'11:00',ines:'10:00',paul:'16:00',sarah:'15:00',alice:'17:00'}[v.id]),comment:v.note})),{id:'seller-proposed',property:'pessac',contact:'lea',name:'Léa Martin',status:'Prévue',date:'2026-10-29',time:'14:00',comment:'Créneau proposé à la propriétaire.',offer:null,sellerResponse:'Visite proposée'}],
  notes:demoVisitors.map(v=>({id:'note-'+v.id,title:'Visite · '+v.name,body:v.note,property:v.property,contact:v.id,created:'2026-10-26T15:00:00'})),
- tasks:demoVisitors.map(v=>({id:v.id,title:v.action,due:'2026-10-29',priority:v.status==='Offre'?'Haute':'Normale',status:'À faire',property:v.property,contact:v.id,created:'2026-10-26T15:00:00'}))
+ tasks:demoVisitors.map(v=>({id:v.id,title:v.action,due:'2026-10-29',priority:v.status==='Offre'?'Haute':'Normale',status:'À faire',property:v.property,contact:v.id,created:'2026-10-26T15:00:00'})),
+ buyerStatuses:Object.fromEntries(demoBuyerMatches.map(m=>[m.property,m.status]))
 });
-function loadState(){try{const data=JSON.parse(localStorage.getItem(storageKey));if(data&&['visits','notes','tasks'].every(k=>Array.isArray(data[k])&&data[k].every(v=>v&&typeof v==='object'&&typeof v.id==='string')))return data;}catch{}return initialState();}
+function loadState(){try{const data=JSON.parse(localStorage.getItem(storageKey));if(data&&['visits','notes','tasks'].every(k=>Array.isArray(data[k])&&data[k].every(v=>v&&typeof v==='object'&&typeof v.id==='string'))){const fresh=initialState();if(!data.visits.some(v=>v.id==='seller-proposed'))data.visits.push(fresh.visits.find(v=>v.id==='seller-proposed'));data.buyerStatuses={...fresh.buyerStatuses,...(data.buyerStatuses||{})};return data;}}catch{}return initialState();}
 let state=loadState();let storageAvailable=true;
 function save(){try{localStorage.setItem(storageKey,JSON.stringify(state));storageAvailable=true;}catch{storageAvailable=false;}}
 const visits=id=>state.visits.filter(v=>v.property===id);
@@ -31,7 +32,7 @@ const dateLabel=value=>value?new Date(value+'T12:00:00').toLocaleDateString('fr-
 const visitDate=v=>dateLabel(v.date)+(v.time?' · '+v.time:'');
 const related=(item)=>[item.property&&mine(property(item.property))?link('bien/'+item.property,property(item.property).title):'',item.contact&&person(item.contact)?link('contact/'+item.contact,person(item.contact).name):''].filter(Boolean).join(' · ');
 const photo=p=>p.photos?.length?`<img class="property-photo" src="${esc(p.photos[0])}" alt="Photo du bien ${esc(p.title)}">`:art(p);
-function card(p,context='mine'){const own=mine(p),a=agent(p),route=propertyRoute(p);return `<article class="property-card">${context==='hub'?photo(p):art(p)}<div class="card-body"><div class="row"><div class="chips">${pill(p.status)}${context==='hub'&&own?pill('Mon bien'):''}</div><small>${esc(p.city)}</small></div><h2>${link(route,p.title)}</h2><strong class="price">${money(p.price)}</strong><p>${p.surface} m² · ${p.rooms} pièces · ${p.bedrooms} chambres</p>${context==='hub'&&!own?`<p class="agent-credit">Proposé par ${esc(a.name)}${a.agency?' – '+esc(a.agency):''}</p><div class="actions">${link(route,'Voir le bien','button primary')}<button data-agent="${esc(a.id)}" type="button">Contacter l’agent</button></div>`:link(route,'Ouvrir le dossier','button primary')}</div></article>`;}
+function card(p,context='mine'){const own=mine(p),a=agent(p),route=propertyRoute(p);return `<article class="property-card">${context==='hub'&&!own?photo(p):art(p)}<div class="card-body"><div class="row"><div class="chips">${pill(p.status)}${context==='hub'&&own?pill('Mon bien'):''}</div><small>${esc(p.city)}</small></div><h2>${link(route,p.title)}</h2><strong class="price">${money(p.price)}</strong><p>${p.surface} m² · ${p.rooms} pièces · ${p.bedrooms} chambres</p>${context==='hub'&&!own?`<p class="agent-credit">Proposé par ${esc(a.name)}${a.agency?' – '+esc(a.agency):''}</p><div class="actions">${link(route,'Voir le bien','button primary')}<button data-agent="${esc(a.id)}" type="button">Contacter l’agent</button></div>`:link(route,'Ouvrir le dossier','button primary')}</div></article>`;}
 function home(){return heading('Bonjour, Camille.','Vos biens, vos contacts et vos prochaines actions.')+`<div class="home-cards">${sections.map(([id,name,icon,copy])=>`<a href="#/${id}" class="home-card"><span class="home-icon">${icon}</span><strong>${name}</strong><small>${copy}</small></a>`).join('')}</div><section class="tools-section"><h2>Mes outils</h2><div class="tools">${['ChatGPT','Claude','Gemini','Gamma','Gmail','Agenda'].map(n=>`<button data-tool="${n}">${n}</button>`).join('')}</div></section>`;}
 function hub(){return heading('Hub Immobilier','Tous les biens publiés par les utilisateurs Li.La.',link('biens','Mes biens','button')+link('deposer','Déposer un bien','button primary'))+`<div class="filters"><label>Rechercher<input id="hub-query" type="search" placeholder="Ville, titre…"></label><label>Type<select id="hub-type"><option value="">Tous les types</option><option>Maison</option><option>Appartement</option></select></label><label>Budget maximum<select id="hub-budget"><option value="">Tous les budgets</option><option value="300000">300 000 €</option><option value="400000">400 000 €</option><option value="500000">500 000 €</option><option value="600000">600 000 €</option></select></label></div><p id="hub-count" role="status" class="hint"></p><div class="property-grid" id="hub-results"></div>`;}
 const norm=s=>String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
@@ -45,7 +46,7 @@ function history(id){const events=[...visits(id).map(v=>({date:v.date+'T'+(v.tim
 function notes(id){return heading('Mes Notes',id?property(id).title:'Vos notes personnelles et vos comptes rendus.',(id?link('bien/'+id,'Retour au bien','button'):'')+button('note','+ Ajouter une note',id||''))+`<section class="panel">${noteList(id)}</section>`;}
 function tasks(id){return heading('Mes Tâches',id?property(id).title:'Vos prochaines actions.',(id?link('bien/'+id,'Retour au bien','button'):'')+button('task','+ Ajouter une tâche',id||''))+`<section class="panel">${taskList(id)}</section>`;}
 function contact(id){const c=person(id);if(!c)return missing();const properties=[...new Set([...c.properties,...state.visits.filter(v=>v.contact===id).map(v=>v.property),...state.notes.filter(n=>n.contact===id).map(n=>n.property),...state.tasks.filter(t=>t.contact===id).map(t=>t.property)])].filter(id=>mine(property(id)));return heading(c.name,c.category+' · '+c.typology,link('reseau','Mon Réseau','button'))+`<div class="split"><section class="panel"><h2>Fiche contact</h2><dl>${[['Société',c.company],['Métier',c.job],['Ville',c.city],['Catégorie',c.category],['Typologie',c.typology],['E-mail',c.email||c.id+'@example.com'],['Téléphone',c.phone||'Non renseigné']].map(([k,v])=>`<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl><h3>Biens liés</h3>${properties.length?properties.map(id=>`<p>${link('bien/'+id,property(id).title,'button')}</p>`).join(''):'<p>Aucun bien lié.</p>'}</section><section class="panel"><h2>Notes</h2>${noteList(null,id)}<h2>Prochaines actions</h2>${taskList(null,id)}</section></div>`;}
-function visitor(id){const v=state.visits.find(v=>v.id===id);if(!v)return;showModal(`<p class="eyebrow">Suivi de visite</p><h2 id="detail-title">${esc(person(v.contact)?.name||v.name)}</h2><p>${esc(property(v.property).title)} · ${esc(visitDate(v))}</p>${pill(v.status)}<h3>Commentaire</h3><p class="user-copy">${esc(v.comment||'Aucun commentaire.')}</p>${v.offer?`<p>Offre : ${money(v.offer)}</p>`:''}<div class="actions">${link('contact/'+v.contact,'Fiche contact','button primary')}${link('notes/'+v.property,'Notes du bien','button')}${link('taches/'+v.property,'Tâches du bien','button')}</div>`);}
+function visitor(id){const v=state.visits.find(v=>v.id===id);if(!v)return;showModal(`<p class="eyebrow">Suivi de visite</p><h2 id="detail-title">${esc(person(v.contact)?.name||v.name)}</h2><p>${esc(property(v.property).title)} · ${esc(visitDate(v))}</p>${pill(v.status)}${v.sellerResponse?`<p>Réponse du vendeur : <strong>${esc(v.sellerResponse)}</strong></p>`:''}<h3>Commentaire</h3><p class="user-copy">${esc(v.comment||'Aucun commentaire.')}</p>${v.offer?`<p>Offre : ${money(v.offer)}</p>`:''}<div class="actions">${link('contact/'+v.contact,'Fiche contact','button primary')}${link('notes/'+v.property,'Notes du bien','button')}${link('taches/'+v.property,'Tâches du bien','button')}</div>`);}
 function showModal(html){$('detail-body').innerHTML=html;$('detail').showModal();}
 function missing(){return heading('Page introuvable','Cette page n’existe pas.',link('accueil','Retour à l’accueil','button'));}
 const categories=['Client','Prospect','Partenaire','Notaire','Courtier','Diagnostiqueur','Artisan','Collègue','Apporteur','Autre'];
@@ -93,13 +94,17 @@ function render(){
  let route=parts[0]||'accueil';const id=parts[1];
  // Keep old bookmarks working while exposing a single property dossier.
  if(route==='projet'||route==='projets'){location.replace('#/'+(id?'bien/'+id:'biens'));return;}
- $('navigation').innerHTML=link('accueil','Accueil',route==='accueil'?'active':'')+sections.map(([key,name])=>link(key,name,(key===route||(key==='biens'&&route==='bien'&&mine(property(id)))||(key==='hub'&&(route==='fiche'||route==='bien'&&!mine(property(id)))))?'active':'')).join('');
+ const privateMode=route==='particulier';
+ $('mode-switch').innerHTML=link('accueil','Li.La Pro',privateMode?'':'active')+link('particulier','Li.La Particulier',privateMode?'active':'');
+ document.querySelector('.brand').href=privateMode?'#/particulier':'#/';
+ $('navigation').innerHTML=privateMode?privateSections.map(([key,name])=>link(key,name,(parts.join('/')===key?'active':''))).join(''):link('accueil','Accueil',route==='accueil'?'active':'')+sections.map(([key,name])=>link(key,name,(key===route||(key==='biens'&&route==='bien'&&mine(property(id)))||(key==='hub'&&(route==='fiche'||route==='bien'&&!mine(property(id)))))?'active':'')).join('');
  let html;
- if(route==='accueil')html=home();
+ if(route==='particulier')html=!id?sellerDashboard():id==='recherche'?buyerDashboard():id==='confier'?privateDeposit():missing();
+ else if(route==='accueil')html=home();
  else if(route==='hub')html=hub();
  else if(route==='biens')html=heading('Mes biens','Vos dossiers immobiliers et leur suivi.',link('deposer','Déposer un bien','button primary'))+`<div class="property-grid">${myProperties().map(p=>card(p)).join('')}</div>`;
- else if(route==='bien')html=mine(property(id))?dossier(property(id)):property(id)?.published?commercial(property(id)):missing();
- else if(route==='fiche')html=property(id)?.published?mine(property(id))?dossier(property(id)):commercial(property(id)):missing();
+ else if(route==='bien')html=mine(property(id))?dossier(property(id))+buyerProPanel(property(id))+synthesisPanel(property(id)):property(id)?.published?commercial(property(id)):missing();
+ else if(route==='fiche')html=property(id)?.published?mine(property(id))?dossier(property(id))+buyerProPanel(property(id))+synthesisPanel(property(id)):commercial(property(id)):missing();
  else if(route==='notes')html=!id||mine(property(id))?notes(id):missing();
  else if(route==='taches')html=!id||mine(property(id))?tasks(id):missing();
  else if(route==='reseau')html=network();
@@ -107,10 +112,14 @@ function render(){
  else if(route==='deposer')html=deposit();else html=missing();
  $('view').dataset.route=parts.join('/');
  $('view').innerHTML='<p id="save-status" class="hint" role="status" aria-live="polite"></p>'+html;
+ if((route==='bien'||route==='fiche')&&mine(property(id))){$('view').querySelector('.page-heading .actions')?.insertAdjacentHTML('beforeend','<button type="button" data-synthesis-scroll>Synthèse du dossier</button>');bindSynthesis(property(id));}
+ if((route==='bien'||route==='fiche')&&mine(property(id))&&property(id).photos?.length)$('view').querySelector('.property-summary summary')?.insertAdjacentHTML('afterend',photo(property(id)));
+ if((route==='bien'||route==='fiche')&&mine(property(id)))$('view').querySelectorAll('.visit-row[data-visitor]').forEach(row=>{const response=state.visits.find(v=>v.id===row.dataset.visitor)?.sellerResponse;if(response)row.lastElementChild.textContent='Réponse vendeur : '+response;});
  document.title=($('view').querySelector('h1')?.textContent||'Cockpit')+' · Li.La';
  if(route==='hub'){['hub-query','hub-type','hub-budget'].forEach(id=>$(id).addEventListener('input',filterHub));filterHub();}
  if(route==='reseau'){['query','city','category','job','typology'].forEach(key=>$('network-'+key).addEventListener('input',filterNetwork));filterNetwork();}
  if(route==='deposer')bindForm();
+ if(route==='particulier'&&id==='confier')bindPrivateDeposit();
  $('view').focus({preventScroll:true});window.scrollTo(0,0);
 }
 document.addEventListener('click',event=>{
@@ -119,6 +128,11 @@ document.addEventListener('click',event=>{
  const add=event.target.closest('[data-add]');if(add)addDialog(add.dataset.add,add.dataset.property);
  if(event.target.closest('[data-cancel]'))$('detail').close();
  const tool=event.target.closest('[data-tool]');if(tool)showModal(`<h2 id="detail-title">${esc(tool.dataset.tool)}</h2><p>Service non connecté.</p>`);
+ if(event.target.closest('[data-synthesis-scroll]'))$('synthesis-panel')?.scrollIntoView({behavior:'smooth',block:'start'});
+ const sellerResponse=event.target.closest('[data-seller-response]');if(sellerResponse){const visit=state.visits.find(v=>v.id===sellerResponse.dataset.visitId&&sellerVisit(v));if(visit&&['Confirmée','Indisponible'].includes(sellerResponse.dataset.sellerResponse)){visit.sellerResponse=sellerResponse.dataset.sellerResponse;save();render();}}
+ const buyerAction=event.target.closest('[data-buyer-action]');if(buyerAction&&demoBuyerMatches.some(m=>m.property===buyerAction.dataset.buyerProperty)&&['Intéressé','Refusé','Visite programmée','Favori'].includes(buyerAction.dataset.buyerAction)){state.buyerStatuses[buyerAction.dataset.buyerProperty]=buyerAction.dataset.buyerAction;save();render();}
+ const proBuyerStatus=event.target.closest('[data-pro-buyer-status]');if(proBuyerStatus&&mine(property(proBuyerStatus.dataset.buyerProperty))&&demoBuyerMatches.some(m=>m.property===proBuyerStatus.dataset.buyerProperty)&&proBuyerStatus.dataset.proBuyerStatus==='Offre en cours'){state.buyerStatuses[proBuyerStatus.dataset.buyerProperty]='Offre en cours';save();render();}
+ if(event.target.closest('[data-private-agent]'))privateAgentPanel();
 });
 document.addEventListener('change',event=>{if(event.target.matches('[data-task]')){const task=state.tasks.find(t=>t.id===event.target.dataset.task);if(task){task.status=event.target.checked?'Terminée':'À faire';save();render();}}});
 $('detail').querySelector('.close').addEventListener('click',()=>$('detail').close());

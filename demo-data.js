@@ -7,7 +7,7 @@ const demoAgents = [
  {id:'nicolas',name:'Nicolas Perrin',agency:'',phone:'05 56 00 32 40',email:'nicolas.perrin@example.com'}
 ];
 const demoProperties = [
- {id:'pessac',agentId:'camille',published:true,title:'Maison Pessac',city:'Pessac',price:465000,type:'Maison',surface:125,rooms:5,bedrooms:4,land:640,status:'Publié',owner:'Claire Morel',dpe:'C',description:'Maison familiale lumineuse, avec jardin et terrasse. Une pièce de vie ouverte et quatre chambres pour accueillir les nouveaux projets.',features:['Jardin','Terrasse','Garage'],color:'sage',photos:[]},
+ {id:'pessac',agentId:'camille',published:true,title:'Maison Pessac',city:'Pessac',price:465000,type:'Maison',surface:125,rooms:5,bedrooms:4,land:640,status:'Publié',listedOn:'2026-09-18',owner:'Claire Morel',dpe:'C',description:'Maison familiale lumineuse, avec jardin et terrasse. Une pièce de vie ouverte et quatre chambres pour accueillir les nouveaux projets.',features:['Jardin','Terrasse','Garage'],color:'sage',photos:['assets/maison-pessac.webp']},
  {id:'bordeaux',agentId:'camille',published:false,title:'Appartement Bordeaux',city:'Bordeaux',price:289000,type:'Appartement',surface:68,rooms:3,bedrooms:2,land:0,status:'Brouillon',owner:'Thomas Laurent',dpe:'D',description:'Appartement traversant proche des transports. Description en cours de préparation.',features:['Balcon','Ascenseur'],color:'lavender',photos:[]},
  {id:'merignac',agentId:'camille',published:true,title:'Maison Mérignac',city:'Mérignac',price:398000,type:'Maison',surface:105,rooms:4,bedrooms:3,land:420,status:'Sous offre',owner:'Élodie Bernard',dpe:'C',description:'Maison de plain-pied avec jardin, dans un secteur résidentiel calme.',features:['Jardin','Stationnement'],color:'sand',photos:[]},
  {id:'talence',agentId:'camille',published:false,title:'Studio Talence',city:'Talence',price:139000,type:'Appartement',surface:28,rooms:1,bedrooms:0,land:0,status:'À actualiser',owner:'Marc Petit',dpe:'E',description:'Studio proche des universités. Diagnostics et photos à actualiser.',features:['Balcon'],color:'lavender',photos:[]},
@@ -23,6 +23,21 @@ const demoVisitors = [
  {id:'paul',property:'pessac',name:'Paul Garnier',status:'À recontacter',date:'22 octobre · 16 h',budget:460000,note:'Réfléchit à la distribution des chambres. Aucun retour depuis la visite.',action:'Faire le point sur ses critères',offer:null},
  {id:'sarah',property:'pessac',name:'Sarah Dubois',status:'Offre',date:'26 octobre · 15 h',budget:465000,note:'Offre reçue, à présenter à la propriétaire.',action:'Présenter l’offre à Claire Morel',offer:450000},
  {id:'alice',property:'merignac',name:'Alice Roux',status:'Offre',date:'25 octobre · 17 h',budget:400000,note:'Offre en cours d’examen par la propriétaire.',action:'Préparer le point avec la propriétaire',offer:390000}
+];
+
+// Explicit client-facing summaries. Agent comments, contact records and tasks are never reused here.
+const demoSellerSummaries = {
+ lea:'Contre-visite demandée.',
+ hugo:'Localisation jugée trop éloignée.',
+ ines:'Intéressé, attend les diagnostics.',
+ paul:'Intéressé, souhaite réfléchir.',
+ sarah:'Une offre est en cours d’examen.'
+};
+const demoBuyerSearch = {type:'Maison',areas:'Bordeaux / Bruges / Le Bouscat',budget:450000,bedrooms:3,garden:true};
+const demoBuyerMatches = [
+ {property:'bordeaux-chartrons',status:'À découvrir',seenOn:null},
+ {property:'pessac',status:'Favori',seenOn:'2026-10-25'},
+ {property:'merignac',status:'Visite programmée',seenOn:null}
 ];
 
 const demoContacts = [
