@@ -56,6 +56,19 @@ const demoDocuments = [
  {id:'doc-lea-financement',search:'lea-martin',name:'Attestation de financement.pdf',type:'Document acquéreur',date:'2026-10-12'}
 ];
 
+// Simulated Google Calendar events, shown in "Ma journée" once the (simulated) connection is made.
+// `offset` places an event relative to today; `date` pins it to a fixed demo day.
+const demoCalendarEvents = [
+ {offset:0,start:'09:00',end:'09:45',title:'Dentiste',kind:'perso'},
+ {offset:0,start:'11:00',end:'12:00',title:'Estimation Bordeaux',kind:'estimation',place:'Bordeaux · Saint-Seurin'},
+ {offset:0,start:'17:30',end:'18:30',title:'Rendez-vous personnel',kind:'perso'},
+ {offset:1,start:'08:30',end:'09:00',title:'Point téléphonique notaire',kind:'estimation',place:'Étude Lacroix'},
+ {offset:1,start:'12:30',end:'13:30',title:'Déjeuner',kind:'perso'},
+ {date:'2026-10-29',start:'10:00',end:'11:00',title:'Estimation Le Haillan',kind:'estimation',place:'Le Haillan'},
+ {date:'2026-10-29',start:'16:30',end:'17:15',title:'Sortie d’école',kind:'perso'},
+ {date:'2026-10-30',start:'09:30',end:'10:30',title:'Réunion réseau d’agents',kind:'autre',place:'Bordeaux'}
+];
+
 // Stable header location; the future profile or device location will replace it.
 const demoLocation = {city:'Blanquefort',temperature:14,sky:'Éclaircies'};
 

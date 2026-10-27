@@ -34,6 +34,13 @@ Ouvrir la racine du site sur GitHub Pages : aucun build, compte, secret ou servi
 - « Créer mon document » : outil choisi directement à côté du bouton (Gamma, Canva, ChatGPT, Claude…).
 - Hub : « Ajouter l’agent à Mon Réseau » sur la fiche commerciale et sur les cartes.
 
+## Ma journée / Agenda
+
+- Route #/journee (et #/journee/AAAA-MM-JJ) : timeline du jour réunissant visites Li.La et rendez-vous de l’agenda (personnel, estimation / RDV pro, autre), créneaux disponibles d’au moins une heure, semaine navigable. Accès depuis la navigation et le panneau Ma journée de l’accueil.
+- « Connecter mon Google Agenda » : connexion simulée (aucun OAuth, aucune clé, aucune requête). Les événements viennent de demoCalendarEvents dans demo-data.js.
+- « Ajouter également à mon Google Agenda » dans + Ajouter une visite : la visite reste toujours enregistrée dans Li.La ; la copie agenda est simulée, ou mise en attente jusqu’à la connexion.
+- Cible PROD : lecture des événements de l’utilisateur et ajout d’une visite Li.La dans Google Agenda. Li.La reste la base des visites et ne modifie ni ne supprime les rendez-vous Google existants.
+
 ## Origine métier du formulaire
 
 Lecture seule des anciens formulaires dans `Li.La_DEV_AOUT_2026/Li.La_20_07_26/Li.La_ACCES_REEL_SUPABASE/Li.La-hub-ava/particuliers/index.html` (catalogue de champs autour des lignes 1007–1010) et `Li.La-hub-ava/lila-by-la-maison-d-ava.html` (équipements autour des lignes 10969–10971).
