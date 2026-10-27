@@ -1,16 +1,19 @@
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#0C2241">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#0C2241">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
 <title>Li.La · Cockpit</title><link rel="icon" href="assets/lila-icon-192.png"><link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
-<script defer src="demo-data.js"></script><script defer src="particulier.js"></script><script defer src="synthesis.js"></script><script defer src="app.js"></script>
+<script defer src="demo-data.js"></script><script defer src="particulier.js"></script><script defer src="synthesis.js"></script><script defer src="recherches.js"></script><script defer src="outils.js"></script><script defer src="app.js"></script>
 </head>
 <body>
-<header class="topbar"><a class="brand" href="#/"><img src="assets/lila-symbol-transparent.png" alt=""><strong>Li.La</strong><span>Cockpit <small>Votre espace immobilier</small></span></a><div class="topbar-actions"><div id="mode-switch" class="mode-switch" aria-label="Choisir une vue"></div><span class="demo-tag">Données fictives</span></div></header>
-<nav id="navigation" aria-label="Navigation principale"></nav>
+<div class="demo-bar"><div class="demo-inner"><span>Démo · données fictives</span><div id="mode-switch" class="mode-switch" aria-label="Choisir l’interface présentée"></div></div></div>
+<header class="topbar"><div class="topbar-inner"><a class="brand" href="#/"><img src="assets/lila-symbol-transparent.png" alt=""><strong>Li.La</strong><span id="brand-space">Pro</span></a><div class="topbar-actions"><span id="place" class="place"></span><button id="quick-add" type="button" class="primary quick-add" aria-label="Ajout rapide"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Ajouter</span></button><button id="menu-toggle" type="button" class="menu-toggle" aria-label="Menu" aria-expanded="false" aria-controls="navigation"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div>
+<nav id="navigation" class="main-nav" aria-label="Navigation principale"></nav></header>
 <main id="view" tabindex="-1"></main>
 <noscript>Activez JavaScript pour ouvrir Li.La.</noscript>
+<section id="tools-bar" class="tools-bar" aria-label="Mes outils"></section>
 <footer><span>Li.La · L’immobilier connecté</span><span>Données conservées sur cet appareil</span></footer>
+<nav id="tabbar" class="tabbar" aria-label="Navigation mobile"></nav>
 <dialog id="detail" aria-labelledby="detail-title"><button class="close" aria-label="Fermer">×</button><div id="detail-body"></div></dialog>
 </body></html>

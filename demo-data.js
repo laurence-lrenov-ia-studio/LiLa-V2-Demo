@@ -7,12 +7,12 @@ const demoAgents = [
  {id:'nicolas',name:'Nicolas Perrin',agency:'',phone:'05 56 00 32 40',email:'nicolas.perrin@example.com'}
 ];
 const demoProperties = [
- {id:'pessac',agentId:'camille',published:true,title:'Maison Pessac',city:'Pessac',price:465000,type:'Maison',surface:125,rooms:5,bedrooms:4,land:640,status:'Publié',listedOn:'2026-09-18',owner:'Claire Morel',dpe:'C',description:'Maison familiale lumineuse, avec jardin et terrasse. Une pièce de vie ouverte et quatre chambres pour accueillir les nouveaux projets.',features:['Jardin','Terrasse','Garage'],color:'sage',photos:['assets/maison-pessac.webp']},
- {id:'bordeaux',agentId:'camille',published:false,title:'Appartement Bordeaux',city:'Bordeaux',price:289000,type:'Appartement',surface:68,rooms:3,bedrooms:2,land:0,status:'Brouillon',owner:'Thomas Laurent',dpe:'D',description:'Appartement traversant proche des transports. Description en cours de préparation.',features:['Balcon','Ascenseur'],color:'lavender',photos:[]},
- {id:'merignac',agentId:'camille',published:true,title:'Maison Mérignac',city:'Mérignac',price:398000,type:'Maison',surface:105,rooms:4,bedrooms:3,land:420,status:'Sous offre',owner:'Élodie Bernard',dpe:'C',description:'Maison de plain-pied avec jardin, dans un secteur résidentiel calme.',features:['Jardin','Stationnement'],color:'sand',photos:[]},
- {id:'talence',agentId:'camille',published:false,title:'Studio Talence',city:'Talence',price:139000,type:'Appartement',surface:28,rooms:1,bedrooms:0,land:0,status:'À actualiser',owner:'Marc Petit',dpe:'E',description:'Studio proche des universités. Diagnostics et photos à actualiser.',features:['Balcon'],color:'lavender',photos:[]},
- {id:'begles',agentId:'camille',published:false,title:'Maison Bègles',city:'Bègles',price:325000,type:'Maison',surface:90,rooms:4,bedrooms:3,land:210,status:'Vendu',owner:'Sophie Durand',dpe:'D',description:'Dossier clôturé après commercialisation.',features:['Terrasse'],color:'sage',photos:[]},
- {id:'cenon',agentId:'camille',published:false,title:'Appartement Cenon',city:'Cenon',price:245000,type:'Appartement',surface:61,rooms:3,bedrooms:2,land:0,status:'Retiré',owner:'Alexandre Vidal',dpe:'D',description:'Commercialisation interrompue à la demande du propriétaire.',features:['Balcon','Stationnement'],color:'lavender',photos:[]},
+ {id:'pessac',agentId:'camille',mandate:'Exclusif',mandateRef:'M-2026-041',mandateDate:'2026-09-15',published:true,title:'Maison Pessac',city:'Pessac',price:465000,type:'Maison',surface:125,rooms:5,bedrooms:4,land:640,status:'Publié',listedOn:'2026-09-18',owner:'Claire Morel',dpe:'C',description:'Maison familiale lumineuse, avec jardin et terrasse. Une pièce de vie ouverte et quatre chambres pour accueillir les nouveaux projets.',features:['Jardin','Terrasse','Garage'],color:'sage',photos:['assets/maison-pessac.webp']},
+ {id:'bordeaux',agentId:'camille',mandate:'Simple',mandateRef:'M-2026-052',mandateDate:'2026-10-08',published:false,title:'Appartement Bordeaux',city:'Bordeaux',price:289000,type:'Appartement',surface:68,rooms:3,bedrooms:2,land:0,status:'Brouillon',owner:'Thomas Laurent',dpe:'D',description:'Appartement traversant proche des transports. Description en cours de préparation.',features:['Balcon','Ascenseur'],color:'lavender',photos:[]},
+ {id:'merignac',agentId:'camille',mandate:'Exclusif',mandateRef:'M-2026-033',mandateDate:'2026-08-27',published:true,title:'Maison Mérignac',city:'Mérignac',price:398000,type:'Maison',surface:105,rooms:4,bedrooms:3,land:420,status:'Sous offre',owner:'Élodie Bernard',dpe:'C',description:'Maison de plain-pied avec jardin, dans un secteur résidentiel calme.',features:['Jardin','Stationnement'],color:'sand',photos:[]},
+ {id:'talence',agentId:'camille',mandate:'Simple',mandateRef:'M-2026-019',mandateDate:'2026-06-03',published:false,title:'Studio Talence',city:'Talence',price:139000,type:'Appartement',surface:28,rooms:1,bedrooms:0,land:0,status:'À actualiser',owner:'Marc Petit',dpe:'E',description:'Studio proche des universités. Diagnostics et photos à actualiser.',features:['Balcon'],color:'lavender',photos:[]},
+ {id:'begles',agentId:'camille',mandate:'Exclusif',mandateRef:'M-2026-007',mandateDate:'2026-03-12',published:false,title:'Maison Bègles',city:'Bègles',price:325000,type:'Maison',surface:90,rooms:4,bedrooms:3,land:210,status:'Vendu',owner:'Sophie Durand',dpe:'D',description:'Dossier clôturé après commercialisation.',features:['Terrasse'],color:'sage',photos:[]},
+ {id:'cenon',agentId:'camille',mandate:'Simple',mandateRef:'M-2026-024',mandateDate:'2026-07-01',published:false,title:'Appartement Cenon',city:'Cenon',price:245000,type:'Appartement',surface:61,rooms:3,bedrooms:2,land:0,status:'Retiré',owner:'Alexandre Vidal',dpe:'D',description:'Commercialisation interrompue à la demande du propriétaire.',features:['Balcon','Stationnement'],color:'lavender',photos:[]},
  {id:'bordeaux-chartrons',agentId:'emma',published:true,title:'Appartement Bordeaux Chartrons',city:'Bordeaux · Chartrons',price:435000,type:'Appartement',surface:82,rooms:4,bedrooms:2,land:0,status:'Publié',dpe:'C',description:'Appartement en pierre rénové, lumineux, avec séjour traversant et balcon. À proximité des commerces et du tramway.',features:['Balcon','Parquet','Proche tramway'],color:'lavender',photos:['assets/annonce-bordeaux.png']},
  {id:'le-bouscat',agentId:'nicolas',published:true,title:'Maison Le Bouscat',city:'Le Bouscat',price:579000,type:'Maison',surface:132,rooms:5,bedrooms:4,land:310,status:'Publié',dpe:'B',description:'Maison familiale contemporaine avec terrasse et jardin paysagé, dans un environnement résidentiel.',features:['Jardin','Terrasse','Stationnement'],color:'sage',photos:['assets/annonce-le-bouscat.png']}
 ];
@@ -33,24 +33,50 @@ const demoSellerSummaries = {
  paul:'Intéressé, souhaite réfléchir.',
  sarah:'Une offre est en cours d’examen.'
 };
-const demoBuyerSearch = {type:'Maison',areas:'Bordeaux / Bruges / Le Bouscat',budget:450000,bedrooms:3,garden:true};
+
+// One buyer search, seen from the agent dossier (Mes recherches) and from the client space (Ma recherche).
+// The detailed professional search brief will come later: only generic criteria are modelled here.
+const demoSearches = [
+ {id:'lea-martin',title:'Recherche Léa Martin',contact:'lea',contacts:['lea','courtier'],type:'Maison',areas:['Bordeaux','Bruges','Le Bouscat'],budget:450000,bedrooms:3,outdoor:'Jardin souhaité',status:'Recherche active',opened:'2026-10-10'}
+];
+const demoBuyerSearch = {searchId:'lea-martin',type:'Maison',areas:'Bordeaux / Bruges / Le Bouscat',budget:450000,bedrooms:3,garden:true};
 const demoBuyerMatches = [
- {property:'bordeaux-chartrons',status:'À découvrir',seenOn:null},
- {property:'pessac',status:'Favori',seenOn:'2026-10-25'},
- {property:'merignac',status:'Visite programmée',seenOn:null}
+ {search:'lea-martin',property:'bordeaux-chartrons',status:'À découvrir',seenOn:null,proposedOn:'2026-10-20'},
+ {search:'lea-martin',property:'pessac',status:'Favori',seenOn:'2026-10-25',proposedOn:'2026-10-14'},
+ {search:'lea-martin',property:'merignac',status:'Visite programmée',seenOn:null,proposedOn:'2026-10-18'}
 ];
 
+// Document metadata only: no file is read, uploaded or stored. `shared` documents appear in the client space.
+const documentTypes = ['DPE','Mandat','Compte rendu de visite','Offre','Document vendeur','Document acquéreur','Présentation','Autre'];
+const demoDocuments = [
+ {id:'doc-pessac-dpe',property:'pessac',name:'DPE Maison Pessac.pdf',type:'DPE',date:'2026-09-12',shared:true},
+ {id:'doc-pessac-mandat',property:'pessac',name:'Mandat de vente.pdf',type:'Mandat',date:'2026-09-15'},
+ {id:'doc-pessac-presentation',property:'pessac',name:'Présentation vendeur.pdf',type:'Présentation',date:'2026-09-18',shared:true},
+ {id:'doc-pessac-cr',property:'pessac',name:'Compte rendu des visites d’octobre.docx',type:'Compte rendu de visite',date:'2026-10-26'},
+ {id:'doc-lea-financement',search:'lea-martin',name:'Attestation de financement.pdf',type:'Document acquéreur',date:'2026-10-12'}
+];
+
+// Stable header location; the future profile or device location will replace it.
+const demoLocation = {city:'Blanquefort',temperature:14,sky:'Éclaircies'};
+
+const contactTypologies = ['Client','Prospect','Acquéreur','Propriétaire','Investisseur','Apporteur','Partenaire','Professionnel','Collègue','Autre'];
+const professionalTrades = ['Notaire','Courtier','Diagnostiqueur','Artisan','Photographe','Architecte','Autre'];
 const demoContacts = [
- ...demoProperties.filter(p=>p.agentId===currentAgentId).map((p,i)=>({id:'owner-'+p.id,name:p.owner,company:['Morel Conseil','Atelier Laurent','Bernard & Associés','Petit Conseil','Durand Services','Vidal Conseil'][i],job:['Consultante','Architecte','Comptable','Enseignant','Commerçante','Consultant'][i],city:p.city,category:'Client',typology:'Propriétaire',properties:[p.id]})),
- ...demoVisitors.map((v,i)=>({id:v.id,name:v.name,company:['Studio Martin','Perrin Conseil','Robert Santé','Garnier Énergie','Dubois Conseil','Roux Design'][i],job:['Designer','Ingénieur','Médecin','Technicien','Consultante','Architecte'][i],city:['Pessac','Bordeaux','Mérignac','Talence','Bordeaux','Mérignac'][i],category:'Prospect',typology:'Acquéreur',properties:[v.property]})),
+ ...demoProperties.filter(p=>p.agentId===currentAgentId).map((p,i)=>({id:'owner-'+p.id,name:p.owner,company:['Morel Conseil','Atelier Laurent','Bernard & Associés','Petit Conseil','Durand Services','Vidal Conseil'][i],job:['Consultante','Architecte','Comptable','Enseignant','Commerçante','Consultant'][i],city:p.city,typology:'Propriétaire',phone:'06 10 20 30 '+(11+i),email:['claire.morel','thomas.laurent','elodie.bernard','marc.petit','sophie.durand','alexandre.vidal'][i]+'@example.com',properties:[p.id]})),
+ ...demoVisitors.map((v,i)=>({id:v.id,name:v.name,company:['Studio Martin','Perrin Conseil','Robert Santé','Garnier Énergie','Dubois Conseil','Roux Design'][i],job:['Designer','Ingénieur','Médecin','Technicien','Consultante','Architecte'][i],city:['Pessac','Bordeaux','Mérignac','Talence','Bordeaux','Mérignac'][i],typology:'Acquéreur',phone:'06 20 30 40 '+(21+i),properties:[v.property]})),
  ...[
- ['notaire','Julie Lacroix','Étude Lacroix','Notaire','Bordeaux','Notaire'],
- ['courtier','Antoine Vidal','Vidal Financement','Courtier','Pessac','Courtier'],
- ['diagnostic','Nadia Simon','Habitat Diagnostic','Diagnostiqueuse','Mérignac','Diagnostiqueur'],
- ['artisan','Lucas Bonnet','Bonnet Rénovation','Artisan','Talence','Artisan'],
+ ['notaire','Julie Lacroix','Étude Lacroix','Notaire','Bordeaux','Professionnel','Notaire'],
+ ['courtier','Antoine Vidal','Vidal Financement','Courtier','Pessac','Professionnel','Courtier'],
+ ['diagnostic','Nadia Simon','Habitat Diagnostic','Diagnostiqueuse','Mérignac','Professionnel','Diagnostiqueur'],
+ ['artisan','Lucas Bonnet','Bonnet Rénovation','Artisan','Talence','Professionnel','Artisan'],
+ ['photographe','Manon Leroy','Studio Leroy','Photographe','Blanquefort','Professionnel','Photographe'],
+ ['architecte','Romain Caron','Atelier Caron','Architecte','Bordeaux','Professionnel','Architecte'],
  ['collegue','Emma Girard','Girard Immobilier','Agent immobilier','Bordeaux','Collègue'],
  ['apporteur','Louis Faure','Faure Conseil','Conseiller','Bègles','Apporteur'],
  ['partenaire','Chloé André','André Habitat','Décoratrice','Pessac','Partenaire'],
+ ['investisseur','Julien Moreau','Moreau Patrimoine','Investisseur','Bordeaux','Investisseur'],
+ ['client-blanc','Nathalie Blanc','Pharmacie Blanc','Pharmacienne','Blanquefort','Client'],
+ ['prospect-haddad','Karim Haddad','','Ingénieur','Eysines','Prospect'],
  ['autre','Marie Lambert','Lambert Services','Assistante','Bordeaux','Autre']
- ].map(([id,name,company,job,city,category])=>({id,name,company,job,city,category,typology:'Professionnel',properties:[],...(id==='collegue'?{email:'emma.girard@example.com',phone:'05 56 00 21 30'}:{})}))
+ ].map(([id,name,company,job,city,typology,trade],i)=>({id,name,company,job,city,typology,...(trade?{trade}:{}),phone:'06 30 40 50 '+(31+i),properties:[],...(id==='collegue'?{email:'emma.girard@example.com',phone:'05 56 00 21 30'}:{})}))
 ];
