@@ -2,7 +2,7 @@
 // Entirely fictional fixtures. Nothing is read from an account or a service.
 const currentAgentId = 'camille';
 const demoAgents = [
- {id:'camille',name:'Camille',agency:'Li.La',phone:'05 56 00 10 20',email:'camille@example.com'},
+ {id:'camille',name:'Camille',firstName:'Camille',lastName:'Martin',agency:'Li.La',phone:'05 56 00 10 20',email:'camille@example.com',sector:'Gironde / Bordeaux Métropole',city:'Bordeaux'},
  {id:'emma',name:'Emma Girard',agency:'Girard Immobilier',phone:'05 56 00 21 30',email:'emma.girard@example.com'},
  {id:'nicolas',name:'Nicolas Perrin',agency:'',phone:'05 56 00 32 40',email:'nicolas.perrin@example.com'}
 ];
