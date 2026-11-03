@@ -36,7 +36,7 @@ const initialState=()=>({
  notes:[...demoVisitors.map(v=>({id:'note-'+v.id,title:'Visite · '+v.name,body:v.note,property:v.property,contact:v.id,created:'2026-10-26T15:00:00'})),...searchSeedNotes()],
  tasks:[...demoVisitors.map(v=>({id:v.id,title:v.action,due:'2026-10-29',priority:v.status==='Offre'?'Haute':'Normale',status:'À faire',property:v.property,contact:v.id,created:'2026-10-26T15:00:00'})),...searchSeedTasks()],
  buyerStatuses:Object.fromEntries(demoBuyerMatches.map(m=>[m.property,m.status])),
- contacts:[],documents:demoDocuments.map(d=>({...d})),proposals:[],properties:[],searches:[],avaChasses:[{id:'ava-lea',searchId:'lea-martin',clientName:'Léa Martin',stage:'Biens repérés',created:'2026-10-10'}],avaMessages:[],avaPropertyTracking:{},avaRsvps:{},tools:null,docTool:'gamma',calendar:{connected:false}
+ contacts:[],documents:demoDocuments.map(d=>({...d})),proposals:[],properties:[],searches:[],tools:null,docTool:'gamma',calendar:{connected:false}
 });
 function searchSeedNotes(){return [{id:'note-search-lea',title:'Brief · Léa Martin',body:'Maison familiale avec jardin pour les enfants. Écoles à proximité appréciées. Accord bancaire en cours avec Antoine Vidal.',search:'lea-martin',contact:'lea',created:'2026-10-10T10:00:00'}];}
 function searchSeedTasks(){return [{id:'task-search-lea',title:'Sélectionner deux nouveaux biens à Bruges',due:'2026-10-31',priority:'Normale',status:'À faire',search:'lea-martin',contact:'lea',created:'2026-10-20T09:00:00'}];}
@@ -44,8 +44,7 @@ const isRecordList=list=>Array.isArray(list)&&list.every(v=>v&&typeof v==='objec
 function loadState(){try{const data=JSON.parse(localStorage.getItem(storageKey));if(data&&['visits','notes','tasks'].every(k=>isRecordList(data[k]))){const fresh=initialState();if(!data.visits.some(v=>v.id==='seller-proposed'))data.visits.push(fresh.visits.find(v=>v.id==='seller-proposed'));data.buyerStatuses={...fresh.buyerStatuses,...(data.buyerStatuses||{})};
  // Workspaces saved before the searches existed receive the search records once.
  if(!data.schema){data.notes.push(...searchSeedNotes());data.tasks.push(...searchSeedTasks());}
- for(const key of ['contacts','documents','proposals','properties','searches','avaChasses','avaMessages'])if(!isRecordList(data[key]))data[key]=fresh[key];
- if(!data.avaPropertyTracking||typeof data.avaPropertyTracking!=='object')data.avaPropertyTracking={};if(!data.avaRsvps||typeof data.avaRsvps!=='object')data.avaRsvps={};
+ for(const key of ['contacts','documents','proposals','properties','searches'])if(!isRecordList(data[key]))data[key]=fresh[key];
  if(!isRecordList(data.tools))data.tools=null;if(typeof data.docTool!=='string')data.docTool=fresh.docTool;if(!['pro','particulier'].includes(data.viewMode))data.viewMode='pro';if(!data.calendar||typeof data.calendar!=='object'||typeof data.calendar.connected!=='boolean')data.calendar={connected:false};data.visits.forEach(v=>{if(v&&v.calendar!=='Ajoutée')delete v.calendar;});data.schema=2;return data;}}catch{}return initialState();}
 let state=loadState();let storageAvailable=true;
 demoProperties.push(...state.properties.filter(p=>!demoProperties.some(existing=>existing.id===p.id)));
@@ -194,6 +193,7 @@ function render(){
  let route=parts[0]||'accueil';const id=parts[1];
  // Keep old bookmarks working while exposing a single property dossier.
  if(route==='projet'||route==='projets'){location.replace('#/'+(id?'bien/'+id:'biens'));return;}
+ if(route==='reseaux-pros'&&id){location.replace('#/reseaux-pros');return;}
  const privateRoute=route==='particulier';
  if(privateRoute)setViewMode('particulier');
  const clientMode=state.viewMode==='particulier',restricted=clientMode&&!privateRoute;
@@ -224,7 +224,7 @@ function render(){
  else if(route==='taches')html=!id||mine(property(id))?tasks(id):missing();
  else if(route==='crm'||route==='reseau')html=network();
  else if(route==='formations')html=trainingsView(id);
- else if(route==='reseaux-pros')html=!id?networksView():id==='annuaire'?avaDirectory():id==='evenements'?avaEventsView():id==='clubs'?avaClubsView():id==='chasse'?parts[2]?avaChaseDetail(parts[2]):avaChaseList():missing();
+ else if(route==='reseaux-pros')html=networksView();
  else if(route==='contact')html=contact(id||'');
  else if(route==='deposer')html=deposit();else if(route==='deposer-recherche')html=professionalSearch();else html=missing();
  if((route==='fiche'||route==='bien')&&property(id)?.published)html+=bfPropertyPublic(property(id));
@@ -238,7 +238,6 @@ function render(){
  document.title=($('view').querySelector('h1')?.textContent||'Cockpit')+' · Li.La';
  if(route==='hub'){['hub-query','hub-type','hub-budget'].forEach(id=>$(id).addEventListener('input',filterHub));filterHub();}
  if(route==='crm'||route==='reseau'){['query','city','typology','trade','job'].forEach(key=>$('network-'+key).addEventListener('input',filterNetwork));filterNetwork();}
- avaBindView(route,id);
  if(route==='deposer')bindForm();
  if(route==='deposer-recherche')bfBind($('search-deposit-form'));
  if(route==='particulier'&&id==='confier')bindPrivateDeposit();
@@ -246,7 +245,6 @@ function render(){
  $('view').focus({preventScroll:true});window.scrollTo(0,0);
 }
 document.addEventListener('click',event=>{
- avaHandleClick(event);
  const mode=event.target.closest('[data-view-mode]');if(mode){setViewMode(mode.dataset.viewMode);if(location.hash===mode.getAttribute('href'))render();}
  const v=event.target.closest('[data-visitor]');if(v)visitor(v.dataset.visitor);
  const agentButton=event.target.closest('[data-agent]');if(agentButton)agentPanel(agentButton.dataset.agent);
@@ -275,11 +273,9 @@ document.addEventListener('click',event=>{
  if(event.target.closest('[data-private-agent]'))privateAgentPanel();
 });
 document.addEventListener('change',event=>{
- avaHandleChange(event);
  if(event.target.matches('[data-task]')){const task=state.tasks.find(t=>t.id===event.target.dataset.task);if(task){task.status=event.target.checked?'Terminée':'À faire';save();render();}}
  if(event.target.matches('[data-doc-tool]')){state.docTool=event.target.value;save();const t=docTool();document.querySelectorAll('.create-doc').forEach(a=>{a.href=t.url;a.querySelector('small').textContent=t.name;});document.querySelectorAll('[data-doc-tool]').forEach(s=>s.value=t.id);}
 });
-document.addEventListener('submit',avaHandleSubmit);
 document.addEventListener('toggle',event=>{const section=event.target;if(!section.matches?.('[data-accordion]'))return;const route=$('view').dataset.route;const ids=openSections.get(route)||new Set();if(section.open)ids.add(section.id);else ids.delete(section.id);openSections.set(route,ids);},true);
 $('detail').querySelector('.close').addEventListener('click',()=>$('detail').close());
 window.addEventListener('hashchange',render);render();

@@ -20,7 +20,7 @@ Ouvrir la racine du site sur GitHub Pages : aucun build, compte, secret ou servi
 - Ajout rapide : bouton « Ajouter » de l’en-tête et raccourcis de l’accueil (contact, visite, note, tâche).
 - Mon CRM (`#/crm`, ancien `#/reseau` conservé) : dix typologies en badges, métier professionnel (Notaire, Courtier, Diagnostiqueur, Artisan, Photographe, Architecte, Autre), « + Ajouter un contact », fiche avec Appeler / Email / WhatsApp, biens, recherches, notes, tâches et historique liés. Un agent du Hub peut être ajouté au CRM.
 - Mes formations (`#/formations`) : Loi ALUR — 42 heures, Chasse immobilière, L’IA et moi — Personnaliser mes outils ; chaque offre a une fiche Découvrir. Pas de paiement ni plateforme pédagogique.
-- Mes réseaux pros (`#/reseaux-pros`) : espace Maison d’AVA avec annuaire fictif filtrable, événements et masterclass filtrables, clubs / entreprises, et Chasse Maison d’AVA. Chasse reprend le pipeline de l’ancien module (Prospection → Biens repérés → Visite calée → Présenté → Signé), relie un dossier Mes recherches et suit les propositions, transmissions simulées et retours du client dans le stockage local.
+- Mes réseaux pros (`#/reseaux-pros`) : une carte Maison d’AVA avec « Accéder à mon espace réseau », qui ouvre le module Maison d’AVA existant dans un nouvel onglet. L’annuaire, les événements, les clubs et Chasse restent dans cet espace externe. Les anciennes sous-routes locales de Mes réseaux pros reviennent à cette porte d’entrée.
 - Documents dans les dossiers bien et recherche : nom, catégorie, date (métadonnées locales uniquement, aucun fichier stocké).
 - Synthèse : « Créer mon document » ouvre l’outil documentaire configuré (Gamma par défaut). Aucune API IA.
 - Mes outils : barre compacte en bas des vues Pro, dix emplacements renommables, masquables, avec intitulé et URL https modifiables.
@@ -53,7 +53,7 @@ Champs réutilisés conceptuellement : type/usage, adresse/secteur, surfaces, pi
 
 ## Référence Maison d’AVA
 
-Lecture seule de `C:\PROJETS_GITHUB\Li.La_CORE_GENERIC\Li.La_20_07_26\Li.La-hub-ava\lila-by-la-maison-d-ava.html`. L’annuaire ancien filtre nom/métier/département et alterne grille/liste ; les événements fusionnent rendez-vous et masterclass avec filtres ; Chasse utilise les objets `CHASSES` / `CHASSES_BIENS` et les étapes Prospection, Biens repérés, Visite calée, Présenté, Signé. La DEMO reprend ces parcours avec des données fictives dans `pro-network.js` et des états dans `localStorage`. Aucune donnée réelle, logique d’authentification ni API de l’ancien projet n’est importée. La « transmission » au client est un état local simulé : elle n’envoie ni message ni e-mail.
+Le module existant est disponible à `https://app.li-la.fr/Li.La-hub-ava/lila-by-la-maison-d-ava.html`. La DEMO ne recrée aucun de ses sous-modules et ne charge ni ses données ni son authentification. `pro-network.js` fournit uniquement la carte d’accès et la présentation de Mes formations. Mon CRM reste le carnet personnel distinct du professionnel.
 
 ## Isolation et validation
 
@@ -61,4 +61,4 @@ Données fictives dans `demo-data.js` et `pro-network.js`, avec une seule liste 
 
 Avec Node, Playwright et Edge disponibles : `node verify.cjs` (Playwright 1.56 vérifié). Tests locaux : répartition Hub/Mes biens, fiche commerciale sans données internes, accès direct aux routes, dossier unifié, ajouts et liens croisés, notes/tâches personnelles, statuts, persistance au rechargement, recherche et filtres CRM combinés, formulaires Pro et Particulier, confidentialité de la vue vendeur, réponse partagée à la visite, favoris acquéreur, filtres et formats de synthèse, copie dans le presse-papiers, échappement de saisie, anciens liens, treize vues à 320/390/768/1440 px et stockage indisponible. Le script bloque séparément l’injection antivirus du poste, qui ne fait pas partie du site. Aucun appel Supabase, e-mail, agenda, IA, push ou déploiement n’est réalisé.
 
-`verify-business.cjs` vérifie les deux dépôts et `verify-network.cjs` vérifie Mon CRM, les formations, les réseaux pros, Chasse et la distinction des trois usages de recherche. Les nouvelles vues sont contrôlées à 320, 360, 390, 768, 1024, 1280 et 1440 px.
+`verify-business.cjs` vérifie les deux dépôts et `verify-network.cjs` vérifie Mon CRM, les formations et la carte d’accès Maison d’AVA. Les nouvelles vues sont contrôlées à 320, 360, 390, 768, 1024, 1280 et 1440 px.
