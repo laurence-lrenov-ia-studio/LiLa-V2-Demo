@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://accounts.google.com/gsi/client; style-src 'self' 'unsafe-inline' https://accounts.google.com/gsi/; connect-src https://www.googleapis.com https://accounts.google.com/gsi/; frame-src https://accounts.google.com/gsi/; img-src 'self' data: https://accounts.google.com/gsi/; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <title>Li.La · Test Google Agenda</title>
+  <style>
+    :root{font-family:Inter,Arial,Helvetica,sans-serif;color:#182640;background:#f8f5ef;font-size:15px}
+    *{box-sizing:border-box} body{margin:0} main{max-width:1000px;margin:auto;padding:30px 18px 70px}
+    h1{font-size:clamp(1.55rem,3.5vw,2.3rem);letter-spacing:-.035em;margin:.2em 0} h2{font-size:1.12rem;margin:0 0 14px}
+    p{line-height:1.5} .eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:#b46b43;font-weight:700}
+    .muted{color:#59677a}.panels{display:grid;grid-template-columns:1fr 1fr;gap:16px}.panel{background:white;border:1px solid #dedcd8;border-radius:17px;padding:20px;margin:16px 0;box-shadow:0 8px 24px #172c4820}
+    .full{grid-column:1/-1} label{display:block;font-size:13px;font-weight:700;margin:12px 0 5px}input,select{width:100%;border:1px solid #c6cbd3;border-radius:9px;padding:11px;background:white;color:#172741;min-height:44px;font-size:15px}button{border:0;border-radius:10px;background:#182d4e;color:white;font-size:14px;font-weight:700;min-height:44px;padding:10px 15px;cursor:pointer;margin:8px 7px 0 0}button.secondary{background:#f0ece5;color:#182d4e;border:1px solid #dcd5c9}button:disabled{opacity:.46;cursor:not-allowed}
+    .status{background:#f1efe9;border-left:4px solid #b8794b;border-radius:8px;padding:11px 12px;line-height:1.4;margin:14px 0;white-space:pre-wrap}.status.ok{background:#e7f5ed;border-color:#288256}.status.error{background:#fff0ed;border-color:#be4237}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.cal-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #e5e5e5}.cal-item label{display:flex;align-items:center;gap:8px;min-width:0;margin:0;font-weight:500}.cal-item input{width:18px;min-height:18px;height:18px}.cal-item small{color:#647184;font-size:11px}
+    .event{padding:11px 0;border-bottom:1px solid #eee}.event strong{display:block}.event small{color:#6a7280}.links{margin-top:15px}.links a{color:#183d70}.warning{font-size:13px;color:#815c3b}.mono{font-family:ui-monospace,monospace;font-size:12px}
+    @media(max-width:670px){.panels,.grid2{display:block}.panel{padding:15px}.panel h2{font-size:1rem}main{padding-top:18px}}
+  </style>
+  <script src="https://accounts.google.com/gsi/client" async></script>
+  <script src="google-calendar-test.js" defer></script>
+</head>
+<body><main>
+  <p class="eyebrow">Li.La V2 · laboratoire indépendant</p>
+  <h1>Test réel de Google Agenda</h1>
+  <p class="muted">On teste la lecture des rendez-vous et la création d'une visite, sans modifier l'application Li.La ni ses données. Aucun jeton Google n'est enregistré.</p>
+  <div class="status" id="status" role="status" aria-live="polite">Prêt. Configurez d'abord un identifiant OAuth Google de test.</div>
+  <section class="panel">
+    <h2>1 · Connecter Google</h2>
+    <label for="client-id">Identifiant client OAuth 2.0 (application Web)</label>
+    <input id="client-id" type="text" autocomplete="off" spellcheck="false" placeholder="12345-abcdef.apps.googleusercontent.com">
+    <p class="warning">L'identifiant client n'est pas un secret. Ne collez jamais ici de mot de passe, de secret OAuth, de clé privée ou de jeton d'accès.</p>
+    <button id="connect" type="button">Connecter et lire les calendriers</button>
+    <button id="authorize-write" class="secondary" type="button" disabled>Autoriser l'ajout de visites</button>
+    <button id="disconnect" class="secondary" type="button" disabled>Déconnecter la session test</button>
+    <p class="muted">Deux autorisations séparées : lecture d'abord, écriture seulement si vous la demandez.</p>
+  </section>
+  <div class="panels">
+    <section class="panel">
+      <h2>2 · Calendriers à afficher</h2>
+      <div id="calendars"><p class="muted">À afficher après connexion.</p></div>
+      <label for="day">Jour à consulter</label>
+      <input type="date" id="day">
+      <button id="load-events" type="button" disabled>Afficher les rendez-vous</button>
+    </section>
+    <section class="panel">
+      <h2>Rendez-vous trouvés</h2>
+      <div id="events"><p class="muted">Aucun événement chargé.</p></div>
+    </section>
+    <section class="panel full">
+      <h2>3 · Ajouter une visite test</h2>
+      <p class="muted">Rien n'est envoyé sans cliquer sur « Créer la visite test » et confirmer. Utilisez de préférence un calendrier dédié aux essais.</p>
+      <label for="lila-visit">Reprendre une visite enregistrée dans la DEMO (facultatif)</label>
+      <select id="lila-visit"><option value="">Nouvelle visite test manuelle</option></select>
+      <div class="grid2">
+        <div><label for="target">Agenda de destination</label><select id="target" disabled><option value="">Connectez Google</option></select></div>
+        <div><label for="title">Titre</label><input id="title" value="TEST Li.La – Visite immobilière"></div>
+        <div><label for="visit-date">Date</label><input type="date" id="visit-date"></div>
+        <div><label for="visit-time">Heure</label><input type="time" id="visit-time" value="14:00"></div>
+        <div><label for="duration">Durée (minutes)</label><input type="number" id="duration" min="15" max="480" step="15" value="60"></div>
+        <div><label for="location">Lieu (facultatif)</label><input id="location" placeholder="Ex. Pessac"></div>
+      </div>
+      <button id="create" type="button" disabled>Créer la visite test dans Google Agenda</button>
+      <div id="creation-result" aria-live="polite"></div>
+      <p class="warning">Cet écran ne synchronise pas encore Li.La : il valide le branchement Google. Il ne modifie ni n'efface les rendez-vous existants. L'événement test créé dans Google reste dans votre calendrier jusqu'à sa suppression manuelle.</p>
+    </section>
+  </div>
+  <p class="links"><a href="../index.html#/journee">Retourner à Ma journée (DEMO)</a></p>
+</main></body></html>

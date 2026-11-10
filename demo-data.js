@@ -37,7 +37,7 @@ const demoSellerSummaries = {
 // One buyer search, seen from the agent dossier (Mes recherches) and from the client space (Ma recherche).
 // The detailed professional search brief will come later: only generic criteria are modelled here.
 const demoSearches = [
- {id:'lea-martin',title:'Recherche Léa Martin',contact:'lea',contacts:['lea','courtier'],type:'Maison',areas:['Bordeaux','Bruges','Le Bouscat'],budget:450000,bedrooms:3,outdoor:'Jardin souhaité',status:'Recherche active',opened:'2026-10-10'}
+ {id:'lea-martin',title:'Recherche Léa Martin',contact:'lea',contacts:['lea','courtier'],type:'Maison',areas:['Bordeaux','Bruges','Le Bouscat'],budget:450000,bedrooms:3,outdoor:'Jardin souhaité',status:'Recherche active',opened:'2026-10-10',diffusionAuthorized:true}
 ];
 const demoBuyerSearch = {searchId:'lea-martin',type:'Maison',areas:'Bordeaux / Bruges / Le Bouscat',budget:450000,bedrooms:3,garden:true};
 const demoBuyerMatches = [
@@ -72,7 +72,7 @@ const demoCalendarEvents = [
 // Stable header location; the future profile or device location will replace it.
 const demoLocation = {city:'Blanquefort',temperature:14,sky:'Éclaircies'};
 
-const contactTypologies = ['Client','Prospect','Acquéreur','Propriétaire','Investisseur','Apporteur','Partenaire','Professionnel','Collègue','Autre'];
+const contactTypologies = ['Apporteur','Vendeur','Acquéreur','Prospect','Partenaire','Client signé'];
 const professionalTrades = ['Notaire','Courtier','Diagnostiqueur','Artisan','Photographe','Architecte','Autre'];
 const demoContacts = [
  ...demoProperties.filter(p=>p.agentId===currentAgentId).map((p,i)=>({id:'owner-'+p.id,name:p.owner,company:['Morel Conseil','Atelier Laurent','Bernard & Associés','Petit Conseil','Durand Services','Vidal Conseil'][i],job:['Consultante','Architecte','Comptable','Enseignant','Commerçante','Consultant'][i],city:p.city,typology:'Propriétaire',phone:'06 10 20 30 '+(11+i),email:['claire.morel','thomas.laurent','elodie.bernard','marc.petit','sophie.durand','alexandre.vidal'][i]+'@example.com',properties:[p.id]})),

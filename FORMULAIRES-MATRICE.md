@@ -1,6 +1,6 @@
 # Matrice exhaustive Excel → Li.La V2 DEMO
 
-Les lignes ci-dessous correspondent aux lignes métier des onglets FORMULAIRE PUBLICATION HUB IMMO et DEPOT DE RECHERCHE. Les onglets UTILISATION et MODE EMPLOI sont des consignes, pas des champs supplémentaires.
+Les lignes ci-dessous correspondent aux lignes métier des onglets FORMULAIRE PUBLICATION HUB IMMO et DEPOT DE RECHERCHE. Les onglets UTILISATION et MODE EMPLOI sont des consignes, pas des champs supplémentaires. Les corrections ultérieures de Linda sur les dates, la certification et le lien de présentation priment sur les libellés Excel d’origine.
 
 | Fichier | Famille | Information Excel | Traitement Li.La |
 |---|---|---|---|
@@ -12,8 +12,8 @@ Les lignes ci-dessous correspondent aux lignes métier des onglets FORMULAIRE PU
 | Bien | AGENT – CONTACT | Secteur géographique de l’agent | PRÉREMPLI — profil fictif : secteur |
 | Bien | AGENT – CONTACT | Ville d’activité de l’agent | PRÉREMPLI — profil fictif : ville |
 | Bien | AUTORISATION | Référence du bien | AUTO — référence interne BIEN |
-| Bien | AUTORISATION | Numéro du mandat | SAISIE — numéro de mandat, interne |
-| Bien | AUTORISATION | Accord de publication texte photo et informations personnelles sur le Hub Immobilier / mandat valide dans les 30 jours A VENIR | SAISIE — certification obligatoire du mandat valide plus de 30 jours |
+| Bien | AUTORISATION | Numéro du mandat | REMPLACÉ — date de fin du mandat obligatoire, à au moins 30 jours |
+| Bien | AUTORISATION | Accord de publication texte photo et informations personnelles sur le Hub Immobilier / mandat valide dans les 30 jours A VENIR | SAISIE — certification obligatoire identique dans les deux formulaires |
 | Bien | DESCRIPTION DU BIEN | Type de bien | SAISIE — type de bien |
 | Bien | DESCRIPTION DU BIEN | Commune | SAISIE — commune |
 | Bien | DESCRIPTION DU BIEN | Code postal | SAISIE — code postal à cinq chiffres |
@@ -61,10 +61,10 @@ Les lignes ci-dessous correspondent aux lignes métier des onglets FORMULAIRE PU
 | Recherche | 1. Professionnel déposant | Secteur couvert | PRÉREMPLI — profil fictif : secteur |
 | Recherche | 1. Professionnel déposant | Ville de rattachement | PRÉREMPLI — profil fictif : ville |
 | Recherche | 2. Identification de la recherche | Référence de recherche | AUTO — référence interne RECH |
-| Recherche | 2. Identification de la recherche | Date du Mandat | SAISIE — date du mandat |
+| Recherche | 2. Identification de la recherche | Date du Mandat | SUPPRIMÉ — date de début non retenue |
 | Recherche | 2. Identification de la recherche | Type(s) de bien recherché(s) | SAISIE — types séparés par virgules |
 | Recherche | 2. Identification de la recherche | Recherche active et autorisée à être diffusée (oui/non) | SAISIE — recherche active et diffusion autorisée |
-| Recherche | 2. Identification de la recherche | Date de fin de validité de la recherche | SAISIE — fin de validité, contrôlée si renseignée |
+| Recherche | 2. Identification de la recherche | Date de fin de validité de la recherche | SAISIE — date de fin obligatoire, à au moins 30 jours |
 | Recherche | 3. Localisation | Département(s) recherché(s) | SAISIE — plusieurs départements |
 | Recherche | 3. Localisation | Commune(s) recherchée(s) | SAISIE — plusieurs communes |
 | Recherche | 3. Localisation | Secteur(s) / quartier(s) | SAISIE — plusieurs secteurs / quartiers |
@@ -98,7 +98,7 @@ Les lignes ci-dessous correspondent aux lignes métier des onglets FORMULAIRE PU
 | Recherche | 8. Diffusion et confidentialité | Ne pas publier les coordonnées du client (confirmation) | SAISIE — confirmation obligatoire de non-publication des coordonnées client |
 | Recherche | 8. Diffusion et confidentialité | Contact professionnel à afficher | PRÉREMPLI — professionnel fictif affiché comme contact |
 | Recherche | 8. Diffusion et confidentialité | Mode de prise de contact souhaité | SAISIE — mode de contact souhaité |
-| Recherche | 8. Diffusion et confidentialité | Lien de présentation ou dossier de recherche (facultatif) | SAISIE — lien de présentation facultatif |
+| Recherche | 8. Diffusion et confidentialité | Lien de présentation ou dossier de recherche (facultatif) | SUPPRIMÉ — correction demandée par Linda |
 | Recherche | 9. Contrôle interne | Date dernière vérification | INTERNE — date dernière vérification à effectuer |
 | Recherche | 9. Contrôle interne | Statut : à valider / validé / suspendu / clos | INTERNE — statut initial À valider |
 | Recherche | 9. Contrôle interne | Validation Maison d’AVA | INTERNE — validation Maison d’AVA à effectuer |
@@ -106,7 +106,6 @@ Les lignes ci-dessous correspondent aux lignes métier des onglets FORMULAIRE PU
 
 ## Ambiguïtés à arbitrer
 
-- Le tableau bien ne donne pas de date précise d’expiration du mandat de vente. La certification de validité à plus de 30 jours est demandée, mais la date n’est pas contrôlable sans champ ou source supplémentaire.
-- Le tableau recherche demande une date de fin de validité mais n’indique pas si son absence doit bloquer. La DEMO la contrôle lorsqu’elle est renseignée.
+- Linda a demandé une date de fin obligatoire dans chaque formulaire et une certification commune : « Je certifie disposer d’un mandat d’une validité égale ou supérieure à 30 jours. »
 - Les modalités exactes de validation Maison d’AVA et du retrait automatique après 30 jours restent à définir pour la production. La DEMO conserve les états nécessaires sans automatisme serveur.
 - Les champs « selon projet » sont visibles dans leurs sections et certains dépendent du type de bien ; leur caractère obligatoire nécessite un arbitrage métier.
