@@ -100,12 +100,12 @@ Les lignes ci-dessous correspondent aux lignes métier des onglets FORMULAIRE PU
 | Recherche | 8. Diffusion et confidentialité | Mode de prise de contact souhaité | SAISIE — mode de contact souhaité |
 | Recherche | 8. Diffusion et confidentialité | Lien de présentation ou dossier de recherche (facultatif) | SUPPRIMÉ — correction demandée par Linda |
 | Recherche | 9. Contrôle interne | Date dernière vérification | INTERNE — date dernière vérification à effectuer |
-| Recherche | 9. Contrôle interne | Statut : à valider / validé / suspendu / clos | INTERNE — statut initial À valider |
-| Recherche | 9. Contrôle interne | Validation Maison d’AVA | INTERNE — validation Maison d’AVA à effectuer |
+| Recherche | 9. Contrôle interne | Statut : à valider / validé / suspendu / clos | NON REPRIS — aucune procédure administrative définie |
+| Recherche | 9. Contrôle interne | Validation Maison d’AVA | NON REPRIS — aucune procédure de validation administrative définie |
 | Recherche | 9. Contrôle interne | Informations manquantes / observations | INTERNE — informations manquantes / observations conservées dans le modèle |
 
 ## Ambiguïtés à arbitrer
 
 - Linda a demandé une date de fin obligatoire dans chaque formulaire et une certification commune : « Je certifie disposer d’un mandat d’une validité égale ou supérieure à 30 jours. »
-- Les modalités exactes de validation Maison d’AVA et du retrait automatique après 30 jours restent à définir pour la production. La DEMO conserve les états nécessaires sans automatisme serveur.
+- Le retrait automatique après 30 jours reste à définir pour la production. La DEMO n’ajoute aucune validation administrative aux recherches.
 - Les champs « selon projet » sont visibles dans leurs sections et certains dépendent du type de bien ; leur caractère obligatoire nécessite un arbitrage métier.

@@ -53,7 +53,7 @@ Champs réutilisés conceptuellement : type/usage, adresse/secteur, surfaces, pi
 
 ## Référence Maison d’AVA
 
-Le module existant est disponible à `https://app.li-la.fr/Li.La-hub-ava/lila-by-la-maison-d-ava.html`. La DEMO ne recrée aucun de ses sous-modules et ne charge ni ses données ni son authentification. `pro-network.js` fournit uniquement la carte d’accès et la présentation de Mes formations. Mon CRM reste le carnet personnel distinct du professionnel.
+Le module existant est servi à `https://app.li-la.fr/Li.La-hub-ava/lila-by-la-maison-d-ava.html`. Cette URL ouvre d’abord le portail public ; l’espace membre exige un lien de connexion par e-mail et l’onglet Chasse exige des droits supplémentaires. La DEMO ne transmet aucune session à ce site et ne recrée aucun de ses sous-modules. `pro-network.js` fournit uniquement la carte d’accès et la présentation de Mes formations. Mon CRM reste le carnet personnel distinct du professionnel.
 
 ## Isolation et validation
 
