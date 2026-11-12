@@ -37,7 +37,8 @@ const demoSellerSummaries = {
 // One buyer search, seen from the agent dossier (Mes recherches) and from the client space (Ma recherche).
 // The detailed professional search brief will come later: only generic criteria are modelled here.
 const demoSearches = [
- {id:'lea-martin',title:'Recherche Léa Martin',contact:'lea',contacts:['lea','courtier'],type:'Maison',areas:['Bordeaux','Bruges','Le Bouscat'],budget:450000,bedrooms:3,outdoor:'Jardin souhaité',status:'Recherche active',opened:'2026-10-10',diffusionAuthorized:true}
+ {id:'lea-martin',agentId:'camille',title:'Recherche Léa Martin',contact:'lea',contacts:['lea','courtier'],type:'Maison',areas:['Bordeaux','Bruges','Le Bouscat'],budget:450000,bedrooms:3,outdoor:'Jardin souhaité',status:'Recherche active',opened:'2026-10-10',diffusionAuthorized:true},
+ {id:'emma-appartement',agentId:'emma',title:'Recherche appartement Bordeaux',type:'Appartement',areas:['Bordeaux','Talence'],budget:330000,bedrooms:2,outdoor:'Balcon souhaité',status:'Recherche active',opened:'2026-11-05',diffusionAuthorized:true}
 ];
 const demoBuyerSearch = {searchId:'lea-martin',type:'Maison',areas:'Bordeaux / Bruges / Le Bouscat',budget:450000,bedrooms:3,garden:true};
 const demoBuyerMatches = [
@@ -84,12 +85,11 @@ const demoContacts = [
  ['artisan','Lucas Bonnet','Bonnet Rénovation','Artisan','Talence','Professionnel','Artisan'],
  ['photographe','Manon Leroy','Studio Leroy','Photographe','Blanquefort','Professionnel','Photographe'],
  ['architecte','Romain Caron','Atelier Caron','Architecte','Bordeaux','Professionnel','Architecte'],
- ['collegue','Emma Girard','Girard Immobilier','Agent immobilier','Bordeaux','Collègue'],
  ['apporteur','Louis Faure','Faure Conseil','Conseiller','Bègles','Apporteur'],
  ['partenaire','Chloé André','André Habitat','Décoratrice','Pessac','Partenaire'],
  ['investisseur','Julien Moreau','Moreau Patrimoine','Investisseur','Bordeaux','Investisseur'],
  ['client-blanc','Nathalie Blanc','Pharmacie Blanc','Pharmacienne','Blanquefort','Client'],
  ['prospect-haddad','Karim Haddad','','Ingénieur','Eysines','Prospect'],
  ['autre','Marie Lambert','Lambert Services','Assistante','Bordeaux','Autre']
- ].map(([id,name,company,job,city,typology,trade],i)=>({id,name,company,job,city,typology,...(trade?{trade}:{}),phone:'06 30 40 50 '+(31+i),properties:[],...(id==='collegue'?{email:'emma.girard@example.com',phone:'05 56 00 21 30'}:{})}))
+ ].map(([id,name,company,job,city,typology,trade],i)=>({id,name,company,job,city,typology,...(trade?{trade}:{}),phone:'06 30 40 50 '+(31+i),properties:[]}))
 ];
