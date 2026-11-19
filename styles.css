@@ -883,3 +883,13 @@ body.sidebar-collapsed .sidebar-head{margin:-22px -8px 0;padding:20px 8px 15px}
  .mobile-home-secondary span{font-size:10.5px}
 }
 @media(max-width:350px) and (max-height:650px){.mobile-home{gap:4px}.mobile-home-hero{padding:9px}.mobile-home-secondary span{font-size:10.5px}}
+.client-share{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:12px 0 16px;background:#f5f8fb;border:1px solid #dce5ed}
+.client-share .eyebrow{margin:0 0 5px;color:#22516f}
+.client-share h2{margin:0 0 4px;font-size:18px;color:#142e4b}
+.client-share p:last-child{margin:0;color:#496176;font-size:13px}
+.client-share .actions{flex-shrink:0}
+.client-demo-banner{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:10px 0 16px;padding:12px 16px;border:1px solid #dce5ed;border-radius:14px;background:#f5f8fb;color:#173550}
+.client-demo-banner p{display:flex;flex-direction:column;gap:3px;margin:0;font-size:13px}
+.client-demo-banner span{color:#496176}
+.client-demo-banner button{flex-shrink:0}
+@media(max-width:700px){.client-share,.client-demo-banner{align-items:stretch;flex-direction:column}.client-share .actions{display:flex;flex-wrap:wrap}.client-share .actions>*{flex:1 1 180px}.client-demo-banner button{align-self:flex-start}}
