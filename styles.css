@@ -909,13 +909,14 @@ body.sidebar-collapsed .sidebar-head{margin:-22px -8px 0;padding:20px 8px 15px}
 @media(max-width:700px){.private-welcome-section .choice-cards{grid-template-columns:1fr}.private-welcome-section.client-access{padding:16px}.request-grid{grid-template-columns:1fr}.request-card .actions{padding-top:10px}}
 
 /* Shared navy to light-blue navigation, with the supplied transparent mascot. */
-.sidebar{background:linear-gradient(180deg,#0c2241 0%,#12345b 42%,#286da5 74%,#dbeefa 100%)}
-.sidebar-head,body.sidebar-collapsed .sidebar-head{background:transparent;border-color:rgba(255,255,255,.14)}
-.sidebar-head{margin:-22px -12px 0;padding:22px 16px 18px}
-.sidebar-brand,.sidebar-brand:hover{color:#fff}.sidebar-brand small{color:#c8d8ea}
-.sidebar-head button{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.28);color:#fff}
-.sidebar-head button:hover{background:rgba(255,255,255,.2);color:#fff}
-body.sidebar-collapsed .sidebar-head{margin:-22px -8px 0;padding:20px 8px 15px}
+.sidebar{background:linear-gradient(180deg,#fcfdfc 0,#f6f9fb 45px,#e1edf6 65px,#acc4da 83px,#6384a7 101px,#2d4e75 118px,#102746 132px,#12345b 42%,#286da5 74%,#dbeefa 100%)}
+.sidebar-head,body.sidebar-collapsed .sidebar-head{border:0;background:transparent}
+.sidebar-head{margin:-22px -12px 0;padding:22px 16px 34px}
+.sidebar-brand,.sidebar-brand:hover{color:#102746}.sidebar-brand small{color:#45617d}
+.sidebar-brand img{width:40px;height:44px}.sidebar-brand strong{font-size:25px}
+.sidebar-head button{background:rgba(255,255,255,.8);border-color:#c9d7e4;color:#173a5d;box-shadow:none}
+.sidebar-head button:hover{background:#fff;color:#102746}
+body.sidebar-collapsed .sidebar-head{margin:-22px -8px 0;padding:20px 8px 28px}
 .sidebar .main-nav{flex:1 1 auto}
 .sidebar-mascot{flex:0 1 auto;align-self:flex-start;width:min(70%,170px);height:clamp(92px,19vh,172px);margin:0 0 -2px 2px;overflow:visible;pointer-events:none}
 .sidebar-mascot img{display:block;width:100%;height:100%;object-fit:contain;object-position:left bottom;filter:drop-shadow(0 8px 14px rgba(13,39,68,.19))}
@@ -927,7 +928,7 @@ body.sidebar-collapsed .sidebar-mascot{width:56px;height:82px;margin-left:0}
 .admin-mode .sidebar-tools,.admin-mode .quick-add{display:none}
 @media(max-height:740px){.sidebar-mascot{height:clamp(68px,13vh,108px)}}
 @media(max-height:600px){.sidebar-mascot{height:64px}.sidebar .main-nav a{min-height:38px;padding-top:7px;padding-bottom:7px}}
-@media(max-width:860px){body.sidebar-collapsed .sidebar-head{margin:-22px -12px 0;padding:22px 16px 18px}.sidebar-mascot{width:min(60%,150px);height:clamp(85px,17vh,138px)}}
+@media(max-width:860px){body.sidebar-collapsed .sidebar-head{margin:-22px -12px 0;padding:22px 16px 34px}.sidebar-mascot{width:min(60%,150px);height:clamp(85px,17vh,138px)}}
 @media(max-width:420px){.demo-inner{gap:6px}.demo-inner>span{font-size:10px}.mode-switch a{font-size:10px;padding:4px 6px}.sidebar-mascot{height:clamp(75px,15vh,120px)}}
 
 /* The two photographic client choices share the existing routes and forms. */
