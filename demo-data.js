@@ -40,7 +40,14 @@ const demoSearches = [
  {id:'lea-martin',agentId:'camille',title:'Recherche Léa Martin',contact:'lea',contacts:['lea','courtier'],type:'Maison',areas:['Bordeaux','Bruges','Le Bouscat'],budget:450000,bedrooms:3,outdoor:'Jardin souhaité',status:'Recherche active',opened:'2026-10-10',diffusionAuthorized:true},
  {id:'emma-appartement',agentId:'emma',title:'Recherche appartement Bordeaux',type:'Appartement',areas:['Bordeaux','Talence'],budget:330000,bedrooms:2,outdoor:'Balcon souhaité',status:'Recherche active',opened:'2026-11-05',diffusionAuthorized:true}
 ];
-const demoBuyerSearch = {searchId:'lea-martin',type:'Maison',areas:'Bordeaux / Bruges / Le Bouscat',budget:450000,bedrooms:3,garden:true};
+const demoBuyerSearch = {searchId:'lea-martin'};
+// Incoming leads are independent requests awaiting review, never a second database of search dossiers.
+const demoRequests = [
+ {id:'request-vente-1',kind:'vente',name:'Nadia Bernard',email:'nadia@example.com',phone:'06 00 00 10 11',city:'Bordeaux',summary:'Appartement familial, 82 m² · estimation souhaitée',status:'Nouvelle',agentId:'',created:'2026-11-18T10:00:00'},
+ {id:'request-recherche-1',kind:'recherche',name:'Julien Petit',email:'julien@example.com',phone:'06 00 00 10 12',city:'Bruges',summary:'Maison avec jardin · budget 460 000 €',status:'Nouvelle',agentId:'',created:'2026-11-19T11:00:00'},
+ {id:'request-location-1',kind:'location',name:'Sophie Laurent',email:'sophie@example.com',phone:'06 00 00 10 13',city:'Mérignac',summary:'Appartement T3 à louer · disponibilité janvier',status:'Nouvelle',agentId:'',created:'2026-11-20T09:30:00'},
+ {id:'request-location-2',kind:'location',name:'Marc Vidal',email:'marc@example.com',phone:'06 00 00 10 14',city:'Talence',summary:'Maison à proposer en location · 110 m²',status:'Nouvelle',agentId:'',created:'2026-11-21T15:15:00'}
+];
 const demoBuyerMatches = [
  {search:'lea-martin',property:'bordeaux-chartrons',status:'À découvrir',seenOn:null,proposedOn:'2026-10-20'},
  {search:'lea-martin',property:'pessac',status:'Favori',seenOn:'2026-10-25',proposedOn:'2026-10-14'},

@@ -1,0 +1,22 @@
+# GitHub Pages publie la racine de main avec Jekyll. Garder le code et les tests
+# dans le dépôt, mais servir uniquement les ressources de la démo active.
+exclude:
+  - .claude/
+  - .demo-worktree/
+  - FORMULAIRES-MATRICE.md
+  - LiLa-V2-DEMO-a-deployer/
+  - LiLa-V2-DEMO.zip
+  - README.md
+  - generate-matrix.py
+  - profile.js
+  - supabase-client.js
+  - test-calendrier/
+  - validation/
+  - serve-demo.cjs
+  - verify.cjs
+  - verify-business.cjs
+  - verify-client-share.cjs
+  - verify-linda.cjs
+  - verify-linda-local.cjs
+  - verify-navigation.cjs
+  - verify-network.cjs

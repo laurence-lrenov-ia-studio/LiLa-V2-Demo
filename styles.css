@@ -893,3 +893,17 @@ body.sidebar-collapsed .sidebar-head{margin:-22px -8px 0;padding:20px 8px 15px}
 .client-demo-banner span{color:#496176}
 .client-demo-banner button{flex-shrink:0}
 @media(max-width:700px){.client-share,.client-demo-banner{align-items:stretch;flex-direction:column}.client-share .actions{display:flex;flex-wrap:wrap}.client-share .actions>*{flex:1 1 180px}.client-demo-banner button{align-self:flex-start}}
+.private-welcome-section{margin-top:24px}
+.private-welcome-section.client-access{padding:22px 26px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);box-shadow:var(--shadow)}
+.private-welcome-section .section-title{margin:0 0 14px}
+.private-welcome-section .choice-cards{grid-template-columns:repeat(3,minmax(0,1fr));margin:0;padding:0;gap:14px}
+.private-welcome-section .choice-body{padding:16px;flex:1}
+.private-welcome-section .choice-body strong{font-size:19px}
+.private-welcome-section .choice-media{aspect-ratio:16/9}
+.visit-sharing{display:grid;gap:8px;margin:14px 0;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--surface-2)}
+.visit-sharing strong{font-size:14px}.visit-sharing small{color:var(--muted)}
+.request-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}
+.request-card{display:flex;flex-direction:column;min-width:0}.request-card h2{margin:12px 0 6px;font-size:18px}.request-card p{margin:0 0 12px;overflow-wrap:anywhere}.request-card>small{color:var(--muted)}.request-card .actions{margin-top:auto;padding-top:16px}
+.request-detail{margin-top:16px}.request-detail h1{margin:12px 0}.request-detail-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.8fr);gap:24px}.request-detail-grid>section{min-width:0}.request-detail-grid dd{overflow-wrap:anywhere}.request-detail-grid label{display:block;margin-top:16px}.request-decisions{margin:16px 0}
+@media(max-width:900px){.request-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.request-detail-grid{grid-template-columns:1fr}}
+@media(max-width:700px){.private-welcome-section .choice-cards{grid-template-columns:1fr}.private-welcome-section.client-access{padding:16px}.request-grid{grid-template-columns:1fr}.request-card .actions{padding-top:10px}}
