@@ -5,8 +5,8 @@ const money=value=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR
 // Inline stroke icons: no external asset or font, compatible with the strict CSP.
 const icons={home:'M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z',hub:'M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z',building:'M5 21V4h10v17M15 9h4v12M3 21h18M8 8h3M8 12h3M8 16h3',search:'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM20 20l-4-4',users:'M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM2 21v-1a6 6 0 0 1 12 0v1M16 3.5a4 4 0 0 1 0 7M22 21v-1a6 6 0 0 0-4-5.6',note:'M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5',task:'M9 11l3 3 8-8M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9',plus:'M12 5v14M5 12h14',phone:'M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z',mail:'M3 6h18v12H3zM3 7l9 6 9-6',chat:'M4 20l1.5-4A8 8 0 1 1 9 19.5z',doc:'M7 3h7l5 5v13H7zM14 3v5h5',calendar:'M4 6h16v15H4zM4 10h16M8 3v4M16 3v4',menu:'M4 7h16M4 12h16M4 17h16',sun:'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4',gear:'M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1',pin:'M12 21s-7-6.5-7-12a7 7 0 0 1 14 0c0 5.5-7 12-7 12zM12 7a2 2 0 1 0 0 4 2 2 0 0 0 0-4z',eye:'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z',heart:'M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z',external:'M14 4h6v6M20 4l-9 9M18 14v6H4V6h6',userPlus:'M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM2 21v-1a6 6 0 0 1 12 0v1M19 8v6M16 11h6',arrow:'M5 12h14M13 6l6 6-6 6',left:'M15 6l-6 6 6 6',right:'M9 6l6 6-6 6',clock:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2',sparkle:'M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z',lock:'M6 11h12v10H6zM8 11V8a4 4 0 0 1 8 0v3',star:'M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z',x:'M6 6l12 12M18 6L6 18',camera:'M4 8h3l2-3h6l2 3h3v12H4zM12 10a4 4 0 1 0 0 8 4 4 0 0 0 0-8z',key:'M14 10a4 4 0 1 0-3.5 4L12 16h2v2h2v2h4v-4l-6-6z',shield:'M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z'};
 const icon=name=>`<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="${icons[name]||''}"/></svg>`;
-const sections=[['hub','Hub Immobilier','hub','Tous les biens publiés'],['biens','Mes biens','home','Vos dossiers vendeurs'],['recherches','Mes recherches','search','Vos acquéreurs accompagnés'],['demandes','Administration Li.La','users','Gestion des demandes pour Linda'],['crm','Mon CRM','users','Votre carnet professionnel'],['reseaux-pros','Mes réseaux pros','building','Maison d’AVA et espaces professionnels'],['formations','Mes formations','doc','Trois parcours professionnels'],['notes','Notes','note','Comptes rendus et idées'],['taches','Actions à réaliser','task','Vos prochaines actions']];
-const navGroups=[['Tableau de bord',['accueil','journee']],['Immobilier',['hub','biens','recherches','demandes']],['Organisation',['crm','notes','taches']],['Réseau et ressources',['reseaux-pros','formations']]];
+const sections=[['hub','Hub Immobilier','hub','Tous les biens publiés'],['biens','Mes biens','home','Vos dossiers vendeurs'],['recherches','Mes recherches','search','Vos acquéreurs accompagnés'],['propositions','Mes propositions Li.La','users',''],['crm','Mon CRM','users','Votre carnet professionnel'],['reseaux-pros','Mes réseaux pros','building','Maison d’AVA et espaces professionnels'],['formations','Mes formations','doc','Trois parcours professionnels'],['notes','Notes','note','Comptes rendus et idées'],['taches','Actions à réaliser','task','Vos prochaines actions']];
+const navGroups=[['Tableau de bord',['accueil','journee']],['Immobilier',['hub','biens','recherches','propositions']],['Organisation',['crm','notes','taches']],['Réseau et ressources',['reseaux-pros','formations']]];
 const homeSections=['hub','biens','recherches','crm','notes','taches','reseaux-pros','formations'].map(id=>sections.find(section=>section[0]===id));
 const link=(route,label,cls='')=>`<a class="${cls}" href="#/${route==='accueil'?'':route}">${esc(label)}</a>`;
 const property=id=>demoProperties.find(p=>p.id===id);
@@ -51,7 +51,7 @@ function loadState(){try{const data=JSON.parse(localStorage.getItem(storageKey))
  if(!data.schema){data.notes.push(...searchSeedNotes());data.tasks.push(...searchSeedTasks());}
  for(const key of ['contacts','documents','proposals','properties','searches','requests'])if(!isRecordList(data[key]))data[key]=fresh[key];
  data.visits.forEach(v=>{if(v.id==='seller-proposed'||demoVisitors.some(seed=>seed.id===v.id)){if(v.sharedWithSeller==null)v.sharedWithSeller=v.property==='pessac';if(v.sharedWithBuyer==null)v.sharedWithBuyer=v.id==='lea'||v.id==='seller-proposed';}});
- if(!isRecordList(data.tools))data.tools=null;if(typeof data.docTool!=='string')data.docTool=fresh.docTool;if(!['pro','particulier'].includes(data.viewMode))data.viewMode='pro';if(!data.calendar||typeof data.calendar!=='object'||typeof data.calendar.connected!=='boolean')data.calendar={connected:false};data.visits.forEach(v=>{if(v&&v.calendar!=='Ajoutée')delete v.calendar;});data.schema=2;return data;}}catch{}return initialState();}
+ if(!isRecordList(data.tools))data.tools=null;if(typeof data.docTool!=='string')data.docTool=fresh.docTool;if(!['pro','particulier','admin'].includes(data.viewMode))data.viewMode='pro';if(!data.calendar||typeof data.calendar!=='object'||typeof data.calendar.connected!=='boolean')data.calendar={connected:false};data.visits.forEach(v=>{if(v&&v.calendar!=='Ajoutée')delete v.calendar;});data.schema=2;return data;}}catch{}return initialState();}
 let state=loadState();let storageAvailable=true;
 demoProperties.push(...state.properties.filter(p=>!demoProperties.some(existing=>existing.id===p.id)));
 demoSearches.push(...state.searches.filter(s=>!demoSearches.some(existing=>existing.id===s.id)));
@@ -59,7 +59,7 @@ const openSections=new Map();
 function save(){state.properties=demoProperties.filter(p=>p.id.startsWith('local-'));state.searches=demoSearches.filter(s=>s.id.startsWith('local-'));try{localStorage.setItem(storageKey,JSON.stringify(state));storageAvailable=true;}catch{storageAvailable=false;}}
 // Without authentication, the demo remembers which interface is being presented.
 // A visitor of Li.La Particulier is kept out of the Hub and of every professional view.
-function setViewMode(mode){if(['pro','particulier'].includes(mode)&&state.viewMode!==mode){state.viewMode=mode;save();}}
+function setViewMode(mode){if(['pro','particulier','admin'].includes(mode)&&state.viewMode!==mode){state.viewMode=mode;save();}}
 const notify=message=>{const el=$('save-status');if(el)el.textContent=message+(storageAvailable?'':' Le stockage du navigateur est indisponible ; cet ajout sera conservé jusqu’au rechargement.');};
 const visits=id=>state.visits.filter(v=>v.property===id);
 const dateLabel=value=>value?new Date(value+'T12:00:00').toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}):'Sans échéance';
@@ -211,29 +211,35 @@ function render(){
  let route=parts[0]||'accueil';const id=parts[1];
  // Keep old bookmarks working while exposing a single property dossier.
  if(route==='projet'||route==='projets'){location.replace('#/'+(id?'bien/'+id:'biens'));return;}
- if(route==='administration'){location.replace('#/demandes');return;}
+ if(route==='demandes'){location.replace(state.viewMode==='admin'?'#/administration':'#/propositions');return;}
  if(route==='reseaux-pros'&&id){location.replace('#/reseaux-pros');return;}
  const privateRoute=route==='particulier';
  if(privateRoute)setViewMode('particulier');
  if(!privateRoute&&state.viewMode==='particulier'){location.replace('#/particulier/bienvenue');return;}
  const clientMode=state.viewMode==='particulier';
+ const adminMode=state.viewMode==='admin';
+ if(adminMode&&!['administration','demande'].includes(route)){location.replace('#/administration');return;}
+ if(!adminMode&&['administration','demande'].includes(route)){location.replace('#/propositions');return;}
+ if(clientMode&&route!=='particulier'){location.replace('#/particulier/bienvenue');return;}
  document.body.classList.toggle('private-mode',clientMode);
- document.body.classList.toggle('demo-home',route==='accueil'&&!clientMode);
- // Demo-only switch between the two interfaces; production will route each user to their own space.
- $('mode-switch').innerHTML=`<a href="#/" data-view-mode="pro" class="${clientMode?'':'active'}">Vue Pro</a><a href="#/particulier/bienvenue" data-view-mode="particulier" class="${clientMode?'active':''}">Vue Particulier</a>`;
- document.querySelector('.brand').href=clientMode?'#/particulier/bienvenue':'#/';
- document.querySelector('.sidebar-brand').href=clientMode?'#/particulier/bienvenue':'#/';
- document.querySelector('.sidebar-brand small').textContent=clientMode?'Espace particulier':'Espace professionnel';
- document.querySelector('.sidebar-account strong').textContent=clientMode?'Vue Particulier':'Camille Martin';
+ document.body.classList.toggle('admin-mode',adminMode);
+ document.body.classList.toggle('demo-home',route==='accueil'&&!clientMode&&!adminMode);
+ // These three interfaces are presentation modes in one browser, not authenticated roles.
+ $('mode-switch').innerHTML=`<a href="#/" data-view-mode="pro" class="${!clientMode&&!adminMode?'active':''}">Vue Pro</a><a href="#/particulier/bienvenue" data-view-mode="particulier" class="${clientMode?'active':''}">Vue Particulier</a><a href="#/administration" data-view-mode="admin" class="${adminMode?'active':''}">Administration</a>`;
+ const modeHome=clientMode?'#/particulier/bienvenue':adminMode?'#/administration':'#/';
+ document.querySelector('.brand').href=modeHome;
+ document.querySelector('.sidebar-brand').href=modeHome;
+ document.querySelector('.sidebar-brand small').textContent=clientMode?'Espace particulier':adminMode?'Administration Li.La':'Espace professionnel';
+ document.querySelector('.sidebar-account strong').textContent=clientMode?'Vue Particulier':adminMode?'Vue Administration':'Camille Martin';
  document.querySelector('.sidebar-account small').textContent='Compte de démonstration';
- $('brand-space').textContent=clientMode?'Particulier':'Pro';
+ $('brand-space').textContent=clientMode?'Particulier':adminMode?'Administration':'Pro';
  const current=parts.join('/');
- const proActive=key=>key===route||(key==='demandes'&&route==='demande')||(key==='crm'&&route==='reseau')||(key==='biens'&&route==='bien'&&mine(property(id)))||(key==='recherches'&&route==='recherche'&&mineSearch(searchFile(id)))||(key==='hub'&&(route==='fiche'||route==='fiche-recherche'||route==='bien'&&!mine(property(id))));
- const navItems=clientMode?privateSections.map(([key,name,ic])=>[key,name,ic,current===key]):[['accueil','Accueil','home',route==='accueil'],['journee','Ma journée','calendar',route==='journee'],...sections.map(([key,name,ic])=>[key,name,ic,proActive(key)])];
- const grouped=clientMode?[['Espace particulier',navItems.map(item=>item[0])]]:navGroups;
+ const proActive=key=>key===route||(key==='propositions'&&route==='proposition')||(key==='crm'&&route==='reseau')||(key==='biens'&&route==='bien'&&mine(property(id)))||(key==='recherches'&&route==='recherche'&&mineSearch(searchFile(id)))||(key==='hub'&&(route==='fiche'||route==='fiche-recherche'||route==='bien'&&!mine(property(id))));
+ const navItems=clientMode?privateSections.map(([key,name,ic])=>[key,name,ic,current===key]):adminMode?[['administration','Administration Li.La','users',true]]:[['accueil','Accueil','home',route==='accueil'],['journee','Ma journée','calendar',route==='journee'],...sections.map(([key,name,ic])=>[key,name,ic,proActive(key)])];
+ const grouped=clientMode?[['Espace particulier',navItems.map(item=>item[0])]]:adminMode?[['Gestion des demandes',['administration']]]:navGroups;
  $('navigation').innerHTML=grouped.map(([label,keys])=>`<div class="nav-group" aria-label="${esc(label)}"><p class="nav-group-title">${esc(label)}</p>${keys.map(key=>{const [id,name,ic,active]=navItems.find(item=>item[0]===key);return `<a href="#/${id==='accueil'?'':id}" class="${active?'active':''}" title="${esc(name)}" aria-label="${esc(name)}"${active?' aria-current="page"':''}>${icon(ic)}<span>${esc(name)}</span></a>`;}).join('')}</div>`).join('');
  $('place').innerHTML=`<span class="place-icon">${icon('sun')}</span><span class="place-text"><strong id="place-live"></strong></span>`;updatePlaceClock();
- $('tools-bar').innerHTML=clientMode?'':toolsBar();
+ $('tools-bar').innerHTML=clientMode||adminMode?'':toolsBar();
  let html;
  if(route==='particulier')html=!id?sellerDashboard():id==='recherche'?buyerDashboard():id==='confier'?privateDeposit():id==='bienvenue'?privateWelcome():id==='brief'?buyerBrief():id==='location'?privateRental():missing();
  else if(route==='accueil')html=home();
@@ -243,8 +249,10 @@ function render(){
  else if(route==='bien')html=mine(property(id))?dossier(property(id))+buyerProPanel(property(id))+synthesisPanel(property(id)):property(id)?.published?commercial(property(id)):missing();
  else if(route==='fiche')html=property(id)?.published?mine(property(id))?dossier(property(id))+buyerProPanel(property(id))+synthesisPanel(property(id)):commercial(property(id)):missing();
  else if(route==='recherches')html=searchesView();
- else if(route==='demandes')html=requestsView();
- else if(route==='demande')html=requestDetail(id||'');
+ else if(route==='propositions')html=proposalsView();
+ else if(route==='proposition')html=requestDetail(id||'','pro');
+ else if(route==='administration')html=requestsView();
+ else if(route==='demande')html=requestDetail(id||'','admin');
  else if(route==='recherche')html=mineSearch(searchFile(id))?searchDossier(searchFile(id))+bfSearchDetails(searchFile(id)):missing();
  else if(route==='fiche-recherche')html=searchFile(id)&&!mineSearch(searchFile(id))&&authorizedHubSearches().includes(searchFile(id))?publicSearch(searchFile(id)):missing();
  else if(route==='notes')html=!id||mine(property(id))?notes(id):missing();

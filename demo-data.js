@@ -43,8 +43,8 @@ const demoSearches = [
 const demoBuyerSearch = {searchId:'lea-martin'};
 // Incoming leads are independent requests awaiting review, never a second database of search dossiers.
 const demoRequests = [
- {id:'request-vente-1',kind:'vente',name:'Nadia Bernard',email:'nadia@example.com',phone:'06 00 00 10 11',city:'Bordeaux',summary:'Appartement familial, 82 m² · estimation souhaitée',status:'Nouvelle',agentId:'',created:'2026-11-18T10:00:00'},
- {id:'request-recherche-1',kind:'recherche',name:'Julien Petit',email:'julien@example.com',phone:'06 00 00 10 12',city:'Bruges',summary:'Maison avec jardin · budget 460 000 €',status:'Nouvelle',agentId:'',created:'2026-11-19T11:00:00'},
+ {id:'request-vente-1',kind:'vente',name:'Nadia Bernard',email:'nadia@example.com',phone:'06 00 00 10 11',city:'Bordeaux',summary:'Appartement familial, 82 m² · estimation souhaitée',status:'Attribuée',agentId:'camille',created:'2026-11-18T10:00:00'},
+ {id:'request-recherche-1',kind:'recherche',name:'Julien Petit',email:'julien@example.com',phone:'06 00 00 10 12',city:'Bruges',summary:'Maison avec jardin · budget 460 000 €',status:'Attribuée',agentId:'camille',created:'2026-11-19T11:00:00'},
  {id:'request-location-1',kind:'location',name:'Sophie Laurent',email:'sophie@example.com',phone:'06 00 00 10 13',city:'Mérignac',summary:'Appartement T3 à louer · disponibilité janvier',status:'Nouvelle',agentId:'',created:'2026-11-20T09:30:00'},
  {id:'request-location-2',kind:'location',name:'Marc Vidal',email:'marc@example.com',phone:'06 00 00 10 14',city:'Talence',summary:'Maison à proposer en location · 110 m²',status:'Nouvelle',agentId:'',created:'2026-11-21T15:15:00'}
 ];
