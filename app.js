@@ -45,7 +45,7 @@ const initialState=()=>({
  notes:[...demoVisitors.map(v=>({id:'note-'+v.id,title:'Visite · '+v.name,body:v.note,property:v.property,contact:v.id,created:'2026-10-26T15:00:00'})),...searchSeedNotes()],
  tasks:[...demoVisitors.map(v=>({id:v.id,title:v.action,due:'2026-10-29',priority:v.status==='Offre'?'Haute':'Normale',status:'À faire',property:v.property,contact:v.id,created:'2026-10-26T15:00:00'})),...searchSeedTasks()],
  buyerStatuses:Object.fromEntries(demoBuyerMatches.map(m=>[m.property,m.status])),
- contacts:[],contactEdits:{},documents:demoDocuments.map(d=>({...d})),proposals:[],properties:[],propertyEdits:{},statusChanges:[],searches:[],requests:demoRequests.map(r=>({...r})),requestReads:{},tools:null,docTool:'gamma',calendar:{connected:false}
+ contacts:[],contactEdits:{},documents:demoDocuments.map(d=>({...d})),proposals:[],properties:[],propertyEdits:{},statusChanges:[],searches:[],requests:demoRequests.map(r=>({...r})),requestReads:{},proposalAgentId:currentAgentId,tools:null,docTool:'gamma',calendar:{connected:false}
 });
 function searchSeedNotes(){return [{id:'note-search-lea',title:'Brief · Léa Martin',body:'Maison familiale avec jardin pour les enfants. Écoles à proximité appréciées. Accord bancaire en cours avec Antoine Vidal.',search:'lea-martin',contact:'lea',created:'2026-10-10T10:00:00'}];}
 function searchSeedTasks(){return [{id:'task-search-lea',title:'Sélectionner deux nouveaux biens à Bruges',due:'2026-10-31',priority:'Normale',status:'À faire',search:'lea-martin',contact:'lea',created:'2026-10-20T09:00:00'}];}
@@ -55,6 +55,7 @@ function loadState(){try{const data=JSON.parse(localStorage.getItem(storageKey))
  if(!data.schema){data.notes.push(...searchSeedNotes());data.tasks.push(...searchSeedTasks());}
  for(const key of ['contacts','documents','proposals','properties','searches','requests'])if(!isRecordList(data[key]))data[key]=fresh[key];
  if(!data.requestReads||typeof data.requestReads!=='object'||Array.isArray(data.requestReads))data.requestReads={};
+ if(!demoAgents.some(agent=>agent.id===data.proposalAgentId))data.proposalAgentId=currentAgentId;
  if(!data.contactEdits||typeof data.contactEdits!=='object'||Array.isArray(data.contactEdits))data.contactEdits={};
  if(!data.propertyEdits||typeof data.propertyEdits!=='object'||Array.isArray(data.propertyEdits))data.propertyEdits={};
  if(!isRecordList(data.statusChanges))data.statusChanges=[];
@@ -343,6 +344,7 @@ document.addEventListener('click',event=>{
  if(event.target.closest('[data-private-agent]'))privateAgentPanel();
 });
 document.addEventListener('change',event=>{
+ if(event.target.matches('[data-proposal-agent]')&&state.viewMode==='pro'&&demoAgents.some(agent=>agent.id===event.target.value)){state.proposalAgentId=event.target.value;save();render();}
  if(event.target.id==='crm-import-file'){openCrmImportFile(event.target.files[0]);event.target.value='';}
  if(event.target.matches('[data-crm-map]')&&crmImportDraft){crmImportDraft.map[event.target.dataset.crmMap]=event.target.value;showCrmImportPreview();}
  if(event.target.matches('[data-request-agent]'))assignRequest(event.target.dataset.requestAgent,event.target.value);
